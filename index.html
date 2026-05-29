@@ -362,34 +362,20 @@
             updateCartUI();
         }
 
-        function generateWhatsAppLink(total) {
-            // TU NÚMERO DE TELÉFONO
-            const tuTelefono = "584246255630"; 
-            
-            // 1. Crear el Enlace Mágico
-            const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
-            const urlBase = window.location.href.split('?')[0]; 
-            const enlaceMagico = `${urlBase}?pedido=${carritoCodificado}`;
+      function generateWhatsAppLink(total) {
+    const tuTelefono = "584140000000"; 
+    const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
+    
+    let mensaje = "🛍️ *¡Hola! Me interesa realizar este pedido:*%0A%0A";
+    cart.forEach(item => {
+        mensaje += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}%0A`;
+    });
+    mensaje += `%0A*Total: $${total.toFixed(2)}*%0A`;
+    mensaje += `%0A---------------------------%0A`;
+    mensaje += `*Código de orden:* [ID_ORDEN:${carritoCodificado}]`; 
 
-            // 2. Armar el Mensaje de WhatsApp súper limpio
-            let mensaje = "🛍️ *¡NUEVO PEDIDO DESDE LA WEB!*%0A";
-            mensaje += "=========================%0A%0A";
-            
-            cart.forEach(item => {
-                mensaje += `▪️ *${item.title}*%0A`;
-                mensaje += `   Talla: ${item.size} | Color: ${item.color}%0A%0A`;
-            });
-            
-            mensaje += "=========================%0A";
-            mensaje += `*Total a Pagar: $${total.toFixed(2)}*%0A%0A`;
-            
-            // Ponemos el link al final. WhatsApp generará una vista previa automática
-            // y ocultará el enlace largo detrás de un recuadro visual para ti.
-            mensaje += `📦 *Link de empaque para la tienda:*%0A${enlaceMagico}`;
-
-            document.getElementById('btnCheckout').href = `https://wa.me/${tuTelefono}?text=${mensaje}`;
-        }
-
+    document.getElementById('btnCheckout').href = `https://wa.me/${tuTelefono}?text=${mensaje}`;
+}
         function checkEmptyCart() {
             if(cart.length === 0) {
                 alert("Agrega productos al carrito primero.");
@@ -433,6 +419,25 @@
 
             document.getElementById('summaryTotalText').innerText = `Total del cliente: $${total.toFixed(2)}`;
         }
+        function buscarPedidoManual() {
+    const input = document.getElementById('orderSearchInput').value;
+    // Extrae el código entre [ID_ORDEN: y ]
+    const match = input.match(/\[ID_ORDEN:(.*?)\]/);
+    
+    if (match && match[1]) {
+        const dataPedido = match[1];
+        try {
+            const carritoGuardado = JSON.parse(decodeURIComponent(atob(dataPedido)));
+            document.getElementById('catalogView').style.display = 'none';
+            document.getElementById('orderSummaryView').style.display = 'block';
+            mostrarModoEmpaque(carritoGuardado);
+        } catch(e) {
+            alert("Código inválido");
+        }
+    } else {
+        alert("Por favor pega el código completo (ejemplo: [ID_ORDEN:ey...])");
+    }
+}
     </script>
 </body>
 </html>
