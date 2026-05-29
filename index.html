@@ -362,21 +362,20 @@
             updateCartUI();
         }
 
-      function generateWhatsAppLink(total) {
-    const tuTelefono = "584246255630"; 
+     function generateWhatsAppLink(total) {
+    const tuTelefono = "584246255630"; // Asegúrate de tener tu número aquí
     
-    // Generamos un código corto aleatorio
-    const ordenID = Date.now().toString().slice(-5); 
+    // El sistema infalible (Codifica todo el carrito en el link)
+    const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
     
-    // Guardamos el pedido en la memoria de la Chromebook con ese ID
-    localStorage.setItem('ORDEN_' + ordenID, JSON.stringify(cart));
-    
-    let mensaje = "🛍️ *¡Hola! Me interesa este pedido:*%0A%0A";
+    let mensaje = "🛍️ *¡Hola! Me interesa realizar este pedido:*%0A%0A";
     cart.forEach(item => {
         mensaje += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}%0A`;
     });
     mensaje += `%0A*Total: $${total.toFixed(2)}*%0A`;
-    mensaje += `%0ACódigo para tu sistema: [ORDEN:${ordenID}]`; 
+    mensaje += `%0A---------------------------%0A`;
+    // Aquí el código es largo, pero al ponerlo así se ve como un número de serie profesional
+    mensaje += `*ID de Pedido:* [ID:${carritoCodificado}]`; 
 
     document.getElementById('btnCheckout').href = `https://wa.me/${tuTelefono}?text=${mensaje}`;
 }
@@ -425,22 +424,23 @@
         }
         function buscarPedidoManual() {
     const input = document.getElementById('orderSearchInput').value;
-    const match = input.match(/\[ORDEN:(.*?)\]/);
+    // Buscamos el ID dentro de los corchetes
+    const match = input.match(/\[ID:(.*?)\]/);
     
     if (match && match[1]) {
-        const id = match[1];
-        const data = localStorage.getItem('ORDEN_' + id);
-        
-        if (data) {
-            const carritoGuardado = JSON.parse(data);
+        const dataPedido = match[1];
+        try {
+            // Decodificamos la información que viene "escondida" en el código
+            const carritoGuardado = JSON.parse(decodeURIComponent(atob(dataPedido)));
+            
             document.getElementById('catalogView').style.display = 'none';
             document.getElementById('orderSummaryView').style.display = 'block';
             mostrarModoEmpaque(carritoGuardado);
-        } else {
-            alert("No encontré ese pedido en tu memoria.");
+        } catch(e) {
+            alert("Error: El código no es válido o está incompleto.");
         }
     } else {
-        alert("Pega el código formato [ORDEN:12345]");
+        alert("Pega el código completo incluyendo [ID:...] que recibiste en WhatsApp.");
     }
 }
     </script>
