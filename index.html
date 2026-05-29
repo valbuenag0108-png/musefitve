@@ -363,16 +363,20 @@
         }
 
       function generateWhatsAppLink(total) {
-    const tuTelefono = "584246255630"; 
-    const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
+    const tuTelefono = "584140000000"; 
     
-    let mensaje = "🛍️ *¡Hola! Me interesa realizar este pedido:*%0A%0A";
+    // Generamos un código corto aleatorio
+    const ordenID = Date.now().toString().slice(-5); 
+    
+    // Guardamos el pedido en la memoria de la Chromebook con ese ID
+    localStorage.setItem('ORDEN_' + ordenID, JSON.stringify(cart));
+    
+    let mensaje = "🛍️ *¡Hola! Me interesa este pedido:*%0A%0A";
     cart.forEach(item => {
         mensaje += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}%0A`;
     });
     mensaje += `%0A*Total: $${total.toFixed(2)}*%0A`;
-    mensaje += `%0A---------------------------%0A`;
-    mensaje += `*Código de orden:* [ID_ORDEN:${carritoCodificado}]`; 
+    mensaje += `%0ACódigo para tu sistema: [ORDEN:${ordenID}]`; 
 
     document.getElementById('btnCheckout').href = `https://wa.me/${tuTelefono}?text=${mensaje}`;
 }
@@ -421,21 +425,22 @@
         }
         function buscarPedidoManual() {
     const input = document.getElementById('orderSearchInput').value;
-    // Extrae el código entre [ID_ORDEN: y ]
-    const match = input.match(/\[ID_ORDEN:(.*?)\]/);
+    const match = input.match(/\[ORDEN:(.*?)\]/);
     
     if (match && match[1]) {
-        const dataPedido = match[1];
-        try {
-            const carritoGuardado = JSON.parse(decodeURIComponent(atob(dataPedido)));
+        const id = match[1];
+        const data = localStorage.getItem('ORDEN_' + id);
+        
+        if (data) {
+            const carritoGuardado = JSON.parse(data);
             document.getElementById('catalogView').style.display = 'none';
             document.getElementById('orderSummaryView').style.display = 'block';
             mostrarModoEmpaque(carritoGuardado);
-        } catch(e) {
-            alert("Código inválido");
+        } else {
+            alert("No encontré ese pedido en tu memoria.");
         }
     } else {
-        alert("Por favor pega el código completo (ejemplo: [ID_ORDEN:ey...])");
+        alert("Pega el código formato [ORDEN:12345]");
     }
 }
     </script>
