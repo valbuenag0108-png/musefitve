@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Activewear Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #111; --accent: #25D366; --bg: #fafafa; --text: #333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+        /* Vistas (Catálogo vs Resumen) */
+        #catalogView { display: block; }
+        #orderSummaryView { display: none; max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        /* Encabezado */
+        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+        h1 { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: var(--primary); }
+
+        .cart-icon-btn { position: relative; background: none; border: none; cursor: pointer; display: flex; align-items: center; }
+        .cart-icon-btn svg { width: 28px; height: 28px; fill: var(--primary); }
+        .cart-counter { position: absolute; top: -5px; right: -8px; background: var(--accent); color: white; font-size: 11px; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+
+        .hero { text-align: center; padding: 30px 20px; background: linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0)); margin-bottom: 20px; }
+        .hero h2 { font-size: 24px; font-weight: 300; margin-bottom: 5px; }
+        .hero h2 b { font-weight: 700; }
+        .hero p { color: #666; font-size: 13px; }
+
+        .container { max-width: 1000px; margin: 0 auto 50px; padding: 0 15px; }
+
+        /* Filtros y Productos */
+        .categories { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .category-btn { padding: 8px 20px; border: 2px solid var(--primary); border-radius: 30px; background: transparent; color: var(--primary); font-weight: 600; font-size: 12px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .category-btn.active, .category-btn:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .product-card { background: #fff; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; border: 1px solid #f0f0f0; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .badge { position: absolute; top: 10px; left: 10px; background: var(--primary); color: #fff; padding: 4px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; border-radius: 20px; z-index: 2; }
+        .product-image { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-image { transform: scale(1.05); }
+        .product-info { padding: 15px; background: #fff; position: relative; z-index: 2; }
+        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        .product-price { font-size: 16px; color: var(--primary); font-weight: 700; }
+        .brand-tag { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px;}
+
+        /* Modal Detalles */
+        #productModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: flex-end; }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; border-radius: 20px 20px 0 0; overflow: hidden; position: relative; max-height: 90vh; display: flex; flex-direction: column; animation: slideUp 0.3s forwards; }
+        @media(min-width: 600px) { .modal-content { border-radius: 20px; margin: 20px; max-height: 85vh; } #productModal { align-items: center; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-scroll { overflow-y: auto; padding-bottom: 20px; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); color: #000; border: none; font-size: 24px; cursor: pointer; border-radius: 50%; width: 35px; height: 35px; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        .chip-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .chip { padding: 8px 16px; border: 1px solid #ccc; border-radius: 8px; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; color: #333; }
+        .chip:hover { border-color: var(--primary); }
+        .chip.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .chip.disabled { text-decoration: line-through; color: #bbb; background: #f9f9f9; cursor: not-allowed; border-color: #eee; }
+
+        .btn-add-cart { display: block; width: calc(100% - 40px); margin: 20px auto 10px; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.3s; }
+
+        /* Carrito Sidebar */
+        .cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 2000; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.3s ease; display: flex; flex-direction: column; }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h2 { font-size: 18px; }
+        .close-cart { background: none; border: none; font-size: 28px; cursor: pointer; }
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-title { font-size: 13px; font-weight: 600; line-height: 1.3; }
+        .cart-item-options { font-size: 11px; color: #666; margin: 5px 0; }
+        .cart-item-price { font-weight: 700; color: var(--primary); font-size: 14px; }
+        .remove-item { background: none; border: none; color: #ff4444; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 5px; }
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #fafafa; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
+        .btn-whatsapp { display: flex; justify-content: center; align-items: center; width: 100%; padding: 15px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; }
+        .overlay.active { display: block; }
+
+        /* Estilos Modo Empaque (Para ti) */
+        .summary-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px dashed #ccc; }
+        .summary-header h2 { font-size: 24px; color: var(--primary); }
+        .summary-item { display: flex; align-items: center; gap: 20px; background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .summary-item img { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; }
+        .summary-item-info h3 { font-size: 16px; margin-bottom: 5px; }
+        .summary-tag { background: var(--primary); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-right: 10px; display: inline-block; }
+        .btn-volver { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #333; color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div id="catalogView">
+        <header>
+            <div class="logo-container">
+                <img src="logo.png" class="logo" alt="Logo">
+                <h1>Activewear</h1>
+            </div>
+            <button class="cart-icon-btn" onclick="toggleCart()">
+                <svg viewBox="0 0 24 24"><path d="M16 6v-2c0-2.209-1.791-4-4-4s-4 1.791-4 4v2h-5v18h18v-18h-5zm-6-2c0-1.103.897-2 2-2s2 .897 2 2v2h-4v-2zm-3 5h2v2h-2v-2zm8 0h2v2h-2v-2zm5 13h-14v-14h3v3h2v-3h4v3h2v-3h3v14z"/></svg>
+                <span class="cart-counter" id="cartCount">0</span>
+            </button>
+        </header>
+
+        <div class="hero">
+            <h2>Entrena con <b>Estilo</b></h2>
+            <p>Selecciona tus prendas, arma tu carrito y pide por WhatsApp.</p>
+        </div>
+
+        <div class="container">
+            <div class="categories">
+                <button class="category-btn active" data-target="todo">Todo</button>
+                <button class="category-btn" data-target="tops">Tops</button>
+                <button class="category-btn" data-target="leggings">Leggings</button>
+                <button class="category-btn" data-target="conjuntos">Conjuntos</button>
+            </div>
+
+            <div class="product-grid">
+                
+                <div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', 'L'], ['Negro', 'Rosa Neón'], 'https://via.placeholder.com/400x500/000000/FFFFFF/?text=Top+Manga+Sisa')">
+                    <span class="badge">Nuevo</span>
+                    <img src="https://via.placeholder.com/400x500/000000/FFFFFF/?text=Top+Manga+Sisa" class="product-image">
+                    <div class="product-info">
+                        <span class="brand-tag">Babalú</span>
+                        <p class="product-title">Top Manga Sisa Compresión</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="leggings" onclick="openModal('Legging Control Abdomen', 'Babalú', 45.00, 'Legging deportivo de pretina alta.', ['S', 'M'], ['Azul Marino', 'Gris'], 'https://via.placeholder.com/400x500/18265a/FFFFFF/?text=Legging+Control')">
+                    <img src="https://via.placeholder.com/400x500/18265a/FFFFFF/?text=Legging+Control" class="product-image">
+                    <div class="product-info">
+                        <span class="brand-tag">Babalú</span>
+                        <p class="product-title">Legging Control Abdomen</p>
+                        <p class="product-price">$45.00</p>
+                    </div>
+                </div>
+
+                 <div class="product-card" data-category="conjuntos" onclick="openModal('Conjunto Elite', 'Babalú', 75.00, 'Outfit completo para entrenar.', ['-S', 'M', 'L'], ['Verde Oliva'], 'https://via.placeholder.com/400x500/4c5c44/FFFFFF/?text=Conjunto+Elite')">
+                    <span class="badge">Bestseller</span>
+                    <img src="https://via.placeholder.com/400x500/4c5c44/FFFFFF/?text=Conjunto+Elite" class="product-image">
+                    <div class="product-info">
+                        <span class="brand-tag">Babalú</span>
+                        <p class="product-title">Conjunto Elite 2 Piezas</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="productModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <div class="modal-scroll">
+                    <img id="modalImg" src="" style="width:100%; height:350px; object-fit:cover; background:#f5f5f5;">
+                    <div style="padding: 20px;">
+                        <span id="modalBrand" style="font-size: 11px; color: #888; text-transform: uppercase; font-weight: 600;"></span>
+                        <h2 id="modalTitle" style="font-size: 20px; font-weight: 700; line-height: 1.2; margin-top: 5px;"></h2>
+                        <p id="modalPrice" style="font-size: 22px; font-weight:700; color: var(--primary); margin: 10px 0;"></p>
+                        <p id="modalDesc" style="font-size: 13px; color: #555; margin-bottom: 20px; line-height: 1.6;"></p>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <p style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: 700;">Talla <span id="errorSize" style="color:red; display:none; text-transform:none; font-weight:normal;">(Selecciona una)</span></p>
+                            <div id="modalSizes" class="chip-container"></div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <p style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: 700;">Color <span id="errorColor" style="color:red; display:none; text-transform:none; font-weight:normal;">(Selecciona uno)</span></p>
+                            <div id="modalColors" class="chip-container"></div>
+                        </div>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart()">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay" id="cartOverlay" onclick="toggleCart()"></div>
+        <div class="cart-sidebar" id="cartSidebar">
+            <div class="cart-header">
+                <h2>Mi Carrito</h2>
+                <button class="close-cart" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <p style="text-align:center; color:#888; margin-top:50px;">Tu carrito está vacío.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotalText">$0.00</span>
+                </div>
+                <a id="btnCheckout" class="btn-whatsapp" href="#" target="_blank" onclick="return checkEmptyCart()">
+                    Finalizar Pedido en WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderSummaryView">
+        <div class="summary-header">
+            <h2>📦 Resumen para Empaque</h2>
+            <p>Estas son las prendas exactas solicitadas por el cliente.</p>
+        </div>
+        <div id="summaryItemsContainer">
+            </div>
+        <div style="text-align: right; margin-top: 20px;">
+            <h2 id="summaryTotalText" style="font-size: 24px;"></h2>
+        </div>
+        <div style="text-align: center;">
+            <a href="?" class="btn-volver">← Volver a mi tienda</a>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DETECCIÓN DEL ENLACE MÁGICO AL CARGAR LA PÁGINA ---
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const dataPedido = params.get('pedido');
+
+            if (dataPedido) {
+                // Si existe el código mágico, ocultamos la tienda y mostramos el modo de empaque
+                document.getElementById('catalogView').style.display = 'none';
+                document.getElementById('orderSummaryView').style.display = 'block';
+                
+                try {
+                    // Desempaquetamos los datos secretos
+                    const carritoGuardado = JSON.parse(decodeURIComponent(atob(dataPedido)));
+                    mostrarModoEmpaque(carritoGuardado);
+                } catch(e) {
+                    document.getElementById('summaryItemsContainer').innerHTML = "<p>Hubo un error leyendo el recibo. Pídele al cliente que vuelva a enviar el mensaje.</p>";
+                }
+            }
+        };
+
+        // --- 2. LÓGICA DE LA TIENDA NORMAL ---
+        let cart = [];
+        let currentProduct = null;
+        let selectedSize = null;
+        let selectedColor = null;
+
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.getAttribute('data-target');
+                document.querySelectorAll('.product-card').forEach(p => {
+                    p.style.display = (target === 'todo' || p.getAttribute('data-category') === target) ? 'block' : 'none';
+                });
+            }
+        });
+
+        function openModal(title, brand, priceNum, desc, sizes, colors, imgUrl) {
+            selectedSize = null; selectedColor = null;
+            document.getElementById('errorSize').style.display = 'none';
+            document.getElementById('errorColor').style.display = 'none';
+
+            currentProduct = { title, brand, price: priceNum, imgUrl };
+
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBrand').innerText = brand;
+            document.getElementById('modalPrice').innerText = "$" + priceNum.toFixed(2);
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = imgUrl;
+
+            const sizesContainer = document.getElementById('modalSizes');
+            sizesContainer.innerHTML = '';
+            sizes.forEach(talla => {
+                const disabled = talla.startsWith('-');
+                const cleanTalla = disabled ? talla.substring(1) : talla;
+                const btn = document.createElement('button');
+                btn.className = `chip ${disabled ? 'disabled' : ''}`;
+                btn.innerText = cleanTalla;
+                if(!disabled) {
+                    btn.onclick = () => {
+                        document.querySelectorAll('#modalSizes .chip').forEach(c => c.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        selectedSize = cleanTalla;
+                        document.getElementById('errorSize').style.display = 'none';
+                    };
+                }
+                sizesContainer.appendChild(btn);
+            });
+
+            const colorsContainer = document.getElementById('modalColors');
+            colorsContainer.innerHTML = '';
+            colors.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'chip';
+                btn.innerText = color;
+                btn.onclick = () => {
+                    document.querySelectorAll('#modalColors .chip').forEach(c => c.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedColor = color;
+                    document.getElementById('errorColor').style.display = 'none';
+                };
+                colorsContainer.appendChild(btn);
+            });
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function addToCart() {
+            if(!selectedSize) document.getElementById('errorSize').style.display = 'inline';
+            if(!selectedColor) document.getElementById('errorColor').style.display = 'inline';
+            if(!selectedSize || !selectedColor) return; 
+
+            const item = {
+                title: currentProduct.title,
+                brand: currentProduct.brand,
+                price: currentProduct.price,
+                imgUrl: currentProduct.imgUrl,
+                size: selectedSize,
+                color: selectedColor
+            };
+
+            cart.push(item);
+            updateCartUI();
+            closeModal();
+            setTimeout(toggleCart, 200); 
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cart.length;
+            const cartContainer = document.getElementById('cartItems');
+            cartContainer.innerHTML = '';
+            let total = 0;
+
+            if(cart.length === 0) {
+                cartContainer.innerHTML = '<p style="text-align:center; color:#888; margin-top:50px;">Tu carrito está vacío.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    cartContainer.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.imgUrl}">
+                            <div class="cart-item-details">
+                                <p class="cart-item-title">${item.title}</p>
+                                <p class="cart-item-options">Talla: <b>${item.size}</b> | Color: <b>${item.color}</b></p>
+                                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                                <button class="remove-item" onclick="removeFromCart(${index})">Eliminar</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('cartTotalText').innerText = "$" + total.toFixed(2);
+            generateWhatsAppLink(total);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function generateWhatsAppLink(total) {
+            // TU NÚMERO DE TELÉFONO
+            const tuTelefono = "584140000000"; 
+            
+            // 1. Crear el Enlace Mágico
+            const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
+            const urlBase = window.location.href.split('?')[0]; 
+            const enlaceMagico = `${urlBase}?pedido=${carritoCodificado}`;
+
+            // 2. Armar el Mensaje de WhatsApp súper limpio
+            let mensaje = "🛍️ *¡NUEVO PEDIDO DESDE LA WEB!*%0A";
+            mensaje += "=========================%0A%0A";
+            
+            cart.forEach(item => {
+                mensaje += `▪️ *${item.title}*%0A`;
+                mensaje += `   Talla: ${item.size} | Color: ${item.color}%0A%0A`;
+            });
+            
+            mensaje += "=========================%0A";
+            mensaje += `*Total a Pagar: $${total.toFixed(2)}*%0A%0A`;
+            
+            // Ponemos el link al final. WhatsApp generará una vista previa automática
+            // y ocultará el enlace largo detrás de un recuadro visual para ti.
+            mensaje += `📦 *Link de empaque para la tienda:*%0A${enlaceMagico}`;
+
+            document.getElementById('btnCheckout').href = `https://wa.me/${tuTelefono}?text=${mensaje}`;
+        }
+
+        function checkEmptyCart() {
+            if(cart.length === 0) {
+                alert("Agrega productos al carrito primero.");
+                return false;
+            }
+            return true;
+        }
+
+        function closeModal() { document.getElementById('productModal').style.display = 'none'; }
+        function toggleCart() { 
+            document.getElementById('cartSidebar').classList.toggle('open'); 
+            document.getElementById('cartOverlay').classList.toggle('active');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('productModal')) closeModal();
+        }
+
+        // --- 3. LÓGICA DEL MODO EMPAQUE (Para ti) ---
+        function mostrarModoEmpaque(carritoGuardado) {
+            const container = document.getElementById('summaryItemsContainer');
+            container.innerHTML = '';
+            let total = 0;
+
+            carritoGuardado.forEach(item => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="summary-item">
+                        <img src="${item.imgUrl}" alt="Foto del producto">
+                        <div class="summary-item-info">
+                            <span style="font-size:11px; color:#888; text-transform:uppercase;">${item.brand}</span>
+                            <h3>${item.title}</h3>
+                            <div style="margin-top: 5px;">
+                                <span class="summary-tag">TALLA: ${item.size}</span>
+                                <span class="summary-tag" style="background:#555;">COLOR: ${item.color}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('summaryTotalText').innerText = `Total del cliente: $${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
