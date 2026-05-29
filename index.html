@@ -443,12 +443,15 @@
         alert("Pega el código completo incluyendo [ID:...] que recibiste en WhatsApp.");
     }
 }
-   // Comando Secreto: Presiona F2 para mostrar/ocultar la caja de admin
+  // Comando Secreto: Presiona la tecla 'z' para mostrar/ocultar la caja de admin
         window.addEventListener("keydown", function(event) {
-            if (event.key === "Z") {
+            // Solo se activa si presionas la tecla 'z'
+            if (event.key === "z" || event.key === "Z") {
                 const box = document.getElementById('adminSearchBox');
+                // Esto cambia el estado de invisible a visible y viceversa
                 box.style.display = (box.style.display === 'none') ? 'block' : 'none';
             }
-        });    </script>
+        });
+    </script>
 </body>
 </html>
