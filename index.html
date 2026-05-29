@@ -216,9 +216,9 @@
             <a href="?" class="btn-volver">← Volver a mi tienda</a>
         </div>
     </div>
-<div style="background: #f0f0f0; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
-    <input type="text" id="orderSearchInput" placeholder="Pega aquí el código [ID_ORDEN:...] para ver pedido" style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
-    <button onclick="buscarPedidoManual()" style="padding: 8px 15px; background: #333; color: white; border: none; border-radius: 6px; cursor: pointer;">Ver Pedido</button>
+<div id="adminSearchBox" style="display: none; background: #333; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+    <input type="text" id="orderSearchInput" placeholder="Pega el código [ID:...] aquí" style="width: 70%; padding: 8px; border-radius: 6px; border: none;">
+    <button onclick="buscarPedidoManual()" style="padding: 8px 15px; background: #25D366; color: white; border: none; border-radius: 6px; cursor: pointer;">Ver Pedido</button>
 </div>
     <script>
         // --- 1. DETECCIÓN DEL ENLACE MÁGICO AL CARGAR LA PÁGINA ---
@@ -443,6 +443,12 @@
         alert("Pega el código completo incluyendo [ID:...] que recibiste en WhatsApp.");
     }
 }
-    </script>
+   // Comando Secreto: Presiona F2 para mostrar/ocultar la caja de admin
+        window.addEventListener("keydown", function(event) {
+            if (event.key === "Z") {
+                const box = document.getElementById('adminSearchBox');
+                box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+            }
+        });    </script>
 </body>
 </html>
