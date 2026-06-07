@@ -48,7 +48,7 @@
         
         .badge { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; padding: 5px 12px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 20px; z-index: 2; }
         
-        /* EL CANDADO DE LAS FOTOS: Proporción 4:5 exacta */
+        /* EL CANDADO DE LAS FOTOS */
         .image-wrapper { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #fff; }
         .product-image { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 0.5s ease; }
         .product-card:hover .product-image { transform: scale(1.03); }
@@ -112,6 +112,9 @@
         .flotante-btn.instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .flotante-btn.whatsapp { background-color: #25D366; }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -144,203 +147,13 @@
                 <button class="category-btn" data-target="tops">Tops</button>
                 <button class="category-btn" data-target="camisetas">Camisetas</button>
                 <button class="category-btn" data-target="jackets">Jackets</button>
-                <button class="category-btn" data-target="conjuntos">Conjuntos</button>
+                <button class="category-btn" data-target="shorts">Shorts</button>
                 <button class="category-btn" data-target="leggins">Leggins</button>
+                <button class="category-btn" data-target="conjuntos">Conjuntos</button>
             </div>
 
-            <div class="product-grid">
-                
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['-S', 'M', '-L'], ['Marron'], ['https://i.ibb.co/rKjvXCX3/IMG-1258.jpg', 'https://i.ibb.co/4nD8g3RH/IMG-1259.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/prKxTpTC/IMG-1260.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['XS', 'S', '-M', '-L'], ['Burdeos' , 'Marron' , 'Azul'], ['https://i.ibb.co/zW0bjCzV/IMG-1317.jpg', 'https://i.ibb.co/VYcc02P9/IMG-1318.jpg','https://i.ibb.co/HLksySh5/IMG-1293.jpg','https://i.ibb.co/6cm0r2vb/IMG-1294.jpg','https://i.ibb.co/fzNpbV6M/IMG-1291.jpg','https://i.ibb.co/0pb8k12H/IMG-1292.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/zW0bjCzV/IMG-1317.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Amarillo' , 'Morado'], ['https://i.ibb.co/TM0H38xW/IMG-1272.jpg', 'https://i.ibb.co/396hF56y/IMG-1269.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/TM0H38xW/IMG-1272.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Blanco' , 'Marron'], ['https://i.ibb.co/0RcLd5JP/IMG-1321.jpg', 'https://i.ibb.co/YB36R7n7/IMG-1324.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/0RcLd5JP/IMG-1321.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Celeste'], ['https://i.ibb.co/1GSPW2MS/IMG-1322.jpg', 'https://i.ibb.co/LWL4fvX/IMG-1323.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/1GSPW2MS/IMG-1322.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Marron' , 'Blanco crema'], ['https://i.ibb.co/wh6TLS98/IMG-1241.jpg', 'https://i.ibb.co/8nJC4NFd/IMG-1242.jpg','https://i.ibb.co/NnszLTDD/IMG-1244.jpg','https://i.ibb.co/zhRxQzyL/IMG-1243.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/wh6TLS98/IMG-1241.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Purpura'], ['https://i.ibb.co/LhRcfBMH/IMG-1268.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/LhRcfBMH/IMG-1268.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'],['Rojo', 'Purpura', 'Blanco'] , ['https://i.ibb.co/CKvHnvvZ/IMG-1287.jpg', 'https://i.ibb.co/F17Kcy9/IMG-1288.jpg','https://i.ibb.co/s9wBDXny/IMG-1252.jpg'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/jktnVhTm/IMG-1374.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Deportivo</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top de tirantes y legging.', ['S', '-M', '-L'], ['Negro', 'Burdeos'], ['https://i.ibb.co/SXfndJNX/IMG-1231.jpg','https://i.ibb.co/XZv0XY1r/IMG-1232.jpg', 'https://i.ibb.co/QjFGmNpp/IMG-1233.jpg','https://i.ibb.co/DDNfZft4/IMG-1234.jpg','https://i.ibb.co/6cSpbPdR/IMG-1235.jpg','https://i.ibb.co/BHH8sx6W/IMG-1236.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/DDNfZft4/IMG-1234.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top deportivo y leggin</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y leggins.', ['S', '-M', '-L'], ['Morado', 'Gris oscuro'], ['https://i.ibb.co/hxYp9VQv/IMG-1311.jpg', 'https://i.ibb.co/rKYjnMQP/IMG-1312.jpg','https://i.ibb.co/S4jHYY0L/IMG-1310.jpg','https://i.ibb.co/Vc0vdZCZ/IMG-1301.jpg','https://i.ibb.co/fz986KQr/IMG-1308.jpg','https://i.ibb.co/FkySd24H/IMG-1302.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/hxYp9VQv/IMG-1311.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top deportivo y leggins</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>         
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y leggins.', ['XS','-S', '-M', '-L'], ['Marron chocolate'], ['https://i.ibb.co/VYLs44G9/IMG-1315.jpg', 'https://i.ibb.co/7dFzk77K/IMG-1316.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/VYLs44G9/IMG-1315.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top deportivo y leggins</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>        
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top  y Shorts running', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts running.', ['S', '-M', '-L'], ['Negro'], ['https://i.ibb.co/ns84Q6sS/IMG-1295.jpg', 'https://i.ibb.co/VcGKCVLZ/IMG-1296.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/ns84Q6sS/IMG-1295.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top y Shorts running</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>        
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top  y Shorts running', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts running.', ['S', '-M', '-L'], [ 'Negro','Gris'], ['https://i.ibb.co/vxbGyHpb/IMG-1299.jpg', 'https://i.ibb.co/svD5mh51/IMG-1300.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/vxbGyHpb/IMG-1299.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top y Shorts running</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>   
-                
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top Helter y Shorts', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts.', ['S', '-M', '-L'], ['Gris Oscuro', 'Marron'], ['https://i.ibb.co/XZG1vYH7/IMG-1240.jpg', 'https://i.ibb.co/tw7DC0ST/IMG-1239.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/XZG1vYH7/IMG-1240.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top Helter y Shorts</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Blusa y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye blusa y leggins.', ['S', '-M', '-L'], ['Marron', 'Verde'], ['https://i.ibb.co/zT9zjxw3/IMG-1290.jpg', 'https://i.ibb.co/XrYrMpMz/IMG-1289.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/zT9zjxw3/IMG-1290.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Blusa y leggins</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>          
-
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y Shorts', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye Top y Shorts.', ['S', '-M', '-L'], ['Gris'], ['https://i.ibb.co/m7q60Rt/IMG-1306.jpg', 'https://i.ibb.co/KxdZLgLC/IMG-1307.jpg'])">
-                    <span class="badge">Bestseller</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/m7q60Rt/IMG-1306.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag"></span>
-                        <p class="product-title">Top deportivo y Shorts</p>
-                        <p class="product-price">$75.00</p>
-                    </div>
-                </div>          
+            <div class="product-grid" id="gridPrendas">
+                <p style="text-align:center; grid-column: 1/-1; color:#888; padding: 40px;">Cargando colección exclusiva...</p>
             </div>
         </div>
 
@@ -364,7 +177,7 @@
                             <div id="modalColors" class="chip-container"></div>
                         </div>
                         
-                        <button class="btn-add-cart" onclick="addToCart()">Añadir al Carrito</button>
+                        <button class="btn-add-cart" id="btnAgregarAlCarrito" onclick="addToCart()">Añadir al Carrito</button>
                     </div>
                 </div>
             </div>
@@ -409,10 +222,18 @@
     </div>
 
     <script>
+        // 🚨 CONFIGURACIÓN DE TU BASE DE DATOS (Paso 2) 🚨
+        const firebaseConfig = {
+            databaseURL: "https://musefitve-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         let cart = [];
         let currentProduct = null; 
         let currentImageIndex = 0;
         let currentProductImages = [];
+        let productosDataGlobal = []; // Guarda los productos cargados desde internet
 
         const carritoGuardado = localStorage.getItem('miTiendaCarrito_v4');
         if (carritoGuardado) {
@@ -422,9 +243,71 @@
 
         window.onload = function() {
             updateCartUI();
-            inicializarFiltros();
-            inicializarModoEmpaqueAlCargar(); // Aquí ocurre la magia del enlace nuevo
+            cargarProductosDesdeFirebase(); // Llama a buscar la ropa en internet
+            inicializarModoEmpaqueAlCargar();
         };
+
+        // Escucha en tiempo real tu base de datos
+        function cargarProductosDesdeFirebase() {
+            database.ref('productos').on('value', (snapshot) => {
+                const data = snapshot.val();
+                const grid = document.getElementById('gridPrendas');
+                grid.innerHTML = '';
+                productosDataGlobal = [];
+
+                if (!data) {
+                    grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#888;">No hay productos en la base de datos aún.</p>';
+                    return;
+                }
+
+                // Recorremos los productos guardados en internet
+                Object.keys(data).forEach((key) => {
+                    const prod = data[key];
+                    prod.id = key; // Guardamos su identificador único
+                    productosDataGlobal.push(prod);
+
+                    const stockActual = parseInt(prod.cantidad || 0);
+                    const esAgotado = stockActual <= 0;
+
+                    // Dibujamos la tarjeta de forma dinámica y alineada
+                    grid.innerHTML += `
+                        <div class="product-card" data-category="${prod.categoria}" style="${esAgotado ? 'opacity: 0.6;' : ''}" onclick="abrirModalDinamico('${key}')">
+                            ${prod.badge ? `<span class="badge">${prod.badge}</span>` : ''}
+                            ${esAgotado ? `<span class="badge" style="background:#777; left:auto; right:15px;">Agotado</span>` : ''}
+                            <div class="image-wrapper">
+                                <img src="${prod.imagenPortada || prod.imagenes[0]}" class="product-image">
+                            </div>
+                            <div class="product-info">
+                                <span class="brand-tag">${prod.marca || ''}</span>
+                                <p class="product-title" style="${esAgotado ? 'text-decoration: line-through; color:#888;' : ''}">${prod.titulo}</p>
+                                <p class="product-price">$${parseFloat(prod.precio).toFixed(2)}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                inicializarFiltros();
+            });
+        }
+
+        function abrirModalDinamico(idProducto) {
+            const prod = productosDataGlobal.find(p => p.id === idProducto);
+            if (!prod) return;
+
+            // Enviamos los datos ordenados al modal original
+            openModal(prod.titulo, prod.marca || '', prod.precio, prod.descripcion, prod.tallas, prod.colores, prod.imagenes);
+            
+            // Si la cantidad es 0, bloqueamos el botón de compra al instante
+            const btn = document.getElementById('btnAgregarAlCarrito');
+            if (parseInt(prod.cantidad || 0) <= 0) {
+                btn.innerText = "Agotado";
+                btn.style.background = "#777";
+                btn.disabled = true;
+            } else {
+                btn.innerText = "Añadir al Carrito";
+                btn.style.background = "#111";
+                btn.disabled = false;
+            }
+        }
 
         function openModal(title, brand, price, desc, sizes, colors, images) {
             currentProductImages = Array.isArray(images) ? images : [images];
@@ -591,7 +474,6 @@
             return true;
         }
 
-        /* 🌟 GENERADOR DE ENLACE MÁGICO 🌟 */
         function generateWhatsAppLink(total) {
             const tuTelefono = "18706487677"; 
             const baseWa = `https://wa.me/${tuTelefono}`;
@@ -602,7 +484,6 @@
                 return;
             }
 
-            // Aquí convertimos el pedido en un enlace que puedes clickear en WhatsApp
             const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
             const linkMagico = `https://musefitve.netlify.app/?pedido=${encodeURIComponent(carritoCodificado)}`;
             
@@ -633,22 +514,33 @@
             const buttons = document.querySelectorAll('.category-btn');
             const products = document.querySelectorAll('.product-card');
             buttons.forEach(btn => {
+                // Removemos listeners viejos para evitar duplicados
+                btn.replaceWith(btn.cloneNode(true));
+            });
+            
+            // Re-mapeamos los botones con la grilla activa
+            const nuevosBotones = document.querySelectorAll('.category-btn');
+            nuevosBotones.forEach(btn => {
+                if(btn.classList.contains('active')) {
+                     var targetActivo = btn.getAttribute('data-target');
+                     document.querySelectorAll('.product-card').forEach(p => {
+                         p.style.display = (targetActivo === 'todo' || p.getAttribute('data-category') === targetActivo) ? 'flex' : 'none';
+                     });
+                }
                 btn.addEventListener('click', () => {
-                    buttons.forEach(b => b.classList.remove('active'));
+                    nuevosBotones.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     const target = btn.getAttribute('data-target');
-                    products.forEach(prod => {
+                    document.querySelectorAll('.product-card').forEach(prod => {
                         prod.style.display = (target === 'todo' || prod.getAttribute('data-category') === target) ? 'flex' : 'none';
                     });
                 });
             });
         }
 
-        /* 🌟 EL LECTOR DEL ENLACE MÁGICO 🌟 */
         function inicializarModoEmpaqueAlCargar() {
             const params = new URLSearchParams(window.location.search);
             const pedidoSecreto = params.get('pedido');
-            
             if (pedidoSecreto) {
                 try {
                     const carritoGuardado = JSON.parse(decodeURIComponent(atob(pedidoSecreto)));
@@ -661,19 +553,15 @@
             }
         }
 
-        /* Lector manual por si alguna vez el link falla */
         function buscarPedidoManual() {
             let input = document.getElementById('orderSearchInput').value.trim();
             let codigoLimpio = input;
-
-            // Si por error pegas el enlace entero, el sistema es inteligente y extrae solo el código
             if (input.includes('?pedido=')) {
                 try { codigoLimpio = new URL(input).searchParams.get('pedido'); } catch(e){}
             } else {
                 const match = input.match(/\[ID:(.*?)\]/);
                 if (match) codigoLimpio = match[1];
             }
-
             if (codigoLimpio) {
                 try {
                     const carritoGuardado = JSON.parse(decodeURIComponent(atob(codigoLimpio)));
@@ -681,7 +569,7 @@
                     document.getElementById('orderSummaryView').style.display = 'block';
                     mostrarModoEmpaque(carritoGuardado);
                 } catch(e) { 
-                    alert("❌ Error: Código inválido. Por favor, usa el enlace directo que llegó al WhatsApp."); 
+                    alert("❌ Error: Código inválido."); 
                 }
             }
         }
@@ -716,7 +604,5 @@
             if (event.target === document.getElementById('productModal')) closeModal();
         };
     </script>
-</body>
-</html>
 </body>
 </html>
