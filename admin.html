@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musefitve | Panel de Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <style>
+        :root { --primary: #111; --accent: #25D366; --bg: #f4f7f6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); padding: 40px 20px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1 { text-align: center; margin-bottom: 30px; color: var(--primary); }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; }
+        textarea { grid-column: 1 / -1; resize: vertical; }
+        .full-width { grid-column: 1 / -1; }
+        
+        button { background: var(--primary); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #333; }
+        
+        .inventory-list { margin-top: 40px; }
+        .item-card { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #eee; }
+        .item-info { display: flex; align-items: center; gap: 15px; }
+        .item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+        .item-stock { font-weight: bold; padding: 5px 12px; border-radius: 20px; background: #eee; font-size: 13px; }
+        .item-stock.low { background: #ffebee; color: #d32f2f; }
+        .actions { display: flex; gap: 10px; }
+        .btn-restar { background: #ff9800; width: auto; padding: 8px 15px; font-size: 12px; }
+        .btn-borrar { background: #d32f2f; width: auto; padding: 8px 15px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📦 Panel de Inventario Musefitve</h1>
+        
+        <form id="formAgregar" onsubmit="guardarProducto(event)">
+            <div class="form-grid">
+                <input type="text" id="pTitulo" placeholder="Nombre (Ej. Top Deportivo)" required>
+                <input type="number" id="pPrecio" placeholder="Precio en $" step="0.01" required>
+                
+                <select id="pCategoria" required>
+                    <option value="" disabled selected>Selecciona Categoría...</option>
+                    <option value="tops">Tops</option>
+                    <option value="camisetas">Camisetas</option>
+                    <option value="jackets">Jackets</option>
+                    <option value="shorts">Shorts</option>
+                    <option value="leggins">Leggins</option>
+                    <option value="conjuntos">Conjuntos</option>
+                </select>
+                
+                <input type="number" id="pCantidad" placeholder="Cantidad en Stock (Ej. 5)" required>
+                
+                <input type="text" class="full-width" id="pTallas" placeholder="Tallas separadas por coma (Ej. S, M, L)" required>
+                <input type="text" class="full-width" id="pColores" placeholder="Colores separados por coma (Ej. Negro, Blanco)" required>
+                <input type="text" class="full-width" id="pImagenes" placeholder="Link de ImgBB separados por coma (Ej. https://i.ibb.co/... , https://...)" required>
+                
+                <textarea id="pDesc" rows="2" placeholder="Descripción de la prenda" required></textarea>
+            </div>
+            <button type="submit">➕ Subir Producto a la Tienda</button>
+        </form>
+
+        <div class="inventory-list">
+            <h2 style="margin-bottom: 15px; font-size: 20px;">Inventario Actual</h2>
+            <div id="listaInventario">Cargando inventario...</div>
+        </div>
+    </div>
+
+    <script>
+        // Conexión a Firebase
+        const firebaseConfig = { databaseURL: "https://musefitve-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database().ref('productos');
+
+        // Función para guardar un nuevo producto
+        function guardarProducto(e) {
+            e.preventDefault();
+            
+            const tallasArray = document.getElementById('pTallas').value.split(',').map(s => s.trim());
+            const coloresArray = document.getElementById('pColores').value.split(',').map(s => s.trim());
+            const imagenesArray = document.getElementById('pImagenes').value.split(',').map(s => s.trim());
+
+            const nuevoProducto = {
+                titulo: document.getElementById('pTitulo').value,
+                precio: parseFloat(document.getElementById('pPrecio').value),
+                categoria: document.getElementById('pCategoria').value,
+                cantidad: parseInt(document.getElementById('pCantidad').value),
+                tallas: tallasArray,
+                colores: coloresArray,
+                imagenes: imagenesArray,
+                descripcion: document.getElementById('pDesc').value,
+                marca: 'Musefitve',
+                badge: 'Nuevo'
+            };
+
+            db.push(nuevoProducto);
+            document.getElementById('formAgregar').reset();
+            alert("¡Prenda subida exitosamente a la tienda!");
+        }
+
+        // Mostrar inventario en tiempo real
+        db.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const lista = document.getElementById('listaInventario');
+            lista.innerHTML = '';
+
+            if (!data) {
+                lista.innerHTML = '<p>No hay productos en la tienda.</p>';
+                return;
+            }
+
+            Object.keys(data).forEach(key => {
+                const prod = data[key];
+                const img = prod.imagenes[0] || 'https://via.placeholder.com/60';
+                const stockClase = prod.cantidad <= 0 ? 'low' : '';
+                const textoStock = prod.cantidad <= 0 ? 'Agotado' : `${prod.cantidad} disp.`;
+
+                lista.innerHTML += `
+                    <div class="item-card">
+                        <div class="item-info">
+                            <img src="${img}" class="item-img">
+                            <div>
+                                <h4 style="font-size: 15px;">${prod.titulo} <span class="item-stock ${stockClase}">${textoStock}</span></h4>
+                                <p style="font-size: 12px; color: #777;">$${prod.precio} | Categ: ${prod.categoria}</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn-restar" onclick="restarStock('${key}', ${prod.cantidad})">-1 Venta</button>
+                            <button class="btn-borrar" onclick="borrarProducto('${key}')">Eliminar</button>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+
+        // Función para descontar 1 del inventario (Venta)
+        function restarStock(id, stockActual) {
+            if (stockActual > 0) {
+                db.child(id).update({ cantidad: stockActual - 1 });
+            } else {
+                alert("Este producto ya está agotado.");
+            }
+        }
+
+        // Función para eliminar un producto definitivamente
+        function borrarProducto(id) {
+            if(confirm("¿Seguro que quieres eliminar este producto para siempre?")) {
+                db.child(id).remove();
+            }
+        }
+    </script>
+</body>
+</html>
