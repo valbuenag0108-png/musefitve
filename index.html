@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musefitve</title>
+    <title>Musefitve | Tienda Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #111; --accent: #25D366; --bg: #ffffff; --text: #333; --card-bg: rgba(0, 0, 0, 0.03); }
+        :root { --primary: #111; --accent: #25D366; --bg: #ffffff; --text: #333; --card-bg: #f9f9f9; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
@@ -40,20 +40,20 @@
         .category-btn { padding: 8px 24px; border: 1px solid #e0e0e0; border-radius: 30px; background: #fff; color: #555; font-weight: 500; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         .category-btn.active, .category-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-        /* GRID Y TARJETAS (ESTRUCTURA DE CALIDAD) */
+        /* GRID Y TARJETAS ALINEADAS PERFECTAMENTE */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
         
-        .product-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; border: 1px solid rgba(0,0,0,0.04); display: flex; flex-direction: column; }
-        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); background: rgba(0,0,0,0.05); }
+        .product-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; border: 1px solid rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 100%; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); background: #f0f0f0; }
         
         .badge { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; padding: 5px 12px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 20px; z-index: 2; }
         
-        /* EL SECRETO: Contenedor con Proporción Fija y Foto Completa */
-        .image-wrapper { width: 100%; aspect-ratio: 3 / 4; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .product-image { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.5s ease; }
+        /* EL CANDADO DE LAS FOTOS: Proporción 4:5 exacta */
+        .image-wrapper { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #fff; }
+        .product-image { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 0.5s ease; }
         .product-card:hover .product-image { transform: scale(1.03); }
         
-        .product-info { padding: 20px 15px; background: transparent; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+        .product-info { padding: 20px 15px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
         .brand-tag { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 5px; font-weight: 500; }
         .product-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #111; line-height: 1.3; }
         .product-price { font-size: 16px; color: #333; font-weight: 700; }
@@ -66,9 +66,8 @@
         .close-btn { position: absolute; top: 15px; right: 15px; background: #fff; color: #000; border: none; font-size: 24px; cursor: pointer; border-radius: 50%; width: 40px; height: 40px; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .close-btn:hover { background: #111; color: #fff; }
         
-        /* Carrusel Adaptativo */
         .carousel-container { position: relative; width: 100%; height: 50vh; min-height: 400px; background: var(--card-bg); display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .carousel-container img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .carousel-container img { width: 100%; height: 100%; object-fit: contain; }
         .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; color: #111; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 5; }
         .carousel-btn:hover { background: #111; color: #fff; }
         .carousel-btn.prev { left: 20px; }
@@ -92,7 +91,7 @@
         .close-cart { background: none; border: none; font-size: 32px; cursor: pointer; line-height: 1; }
         .cart-items { flex-grow: 1; overflow-y: auto; padding: 25px; }
         .cart-item { display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #f5f5f5; padding-bottom: 20px; }
-        .cart-item img { width: 80px; height: 100px; object-fit: contain; background: var(--card-bg); border-radius: 10px; mix-blend-mode: multiply; }
+        .cart-item img { width: 80px; height: 100px; object-fit: contain; background: var(--card-bg); border-radius: 10px; }
         .cart-item-details { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .cart-item-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
         .cart-item-options { font-size: 12px; color: #777; margin: 5px 0; }
@@ -100,7 +99,7 @@
         .remove-item { background: none; border: none; color: #ff4444; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: auto; text-align: left; width: fit-content; }
         .cart-footer { padding: 25px; border-top: 1px solid #eee; background: #fafafa; }
         .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; margin-bottom: 20px; }
-        .btn-whatsapp { display: flex; justify-content: center; align-items: center; width: 100%; padding: 18px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 14px; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        .btn-whatsapp { display: flex; justify-content: center; align-items: center; width: 100%; padding: 18px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 14px; font-weight: 600; font-size: 15px; transition: 0.3s; text-align: center; }
         .btn-whatsapp:hover { background: #20ba59; }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(3px); z-index: 1500; transition: 0.3s; }
         .overlay.active { display: block; }
@@ -120,7 +119,7 @@
         <header>
             <div class="logo-container">
                 <img src="https://i.ibb.co/jkBZJ2ZM/logomuse.jpg" class="logo" alt="Logo">
-                <h1>Musefitve</h1>
+                <h1>Musefit.ve</h1>
             </div>
             <button class="cart-icon-btn" onclick="toggleCart()">
                 <svg viewBox="0 0 24 24"><path d="M16 6v-2c0-2.209-1.791-4-4-4s-4 1.791-4 4v2h-5v18h18v-18h-5zm-6-2c0-1.103.897-2 2-2s2 .897 2 2v2h-4v-2zm-3 5h2v2h-2v-2zm8 0h2v2h-2v-2zm5 13h-14v-14h3v3h2v-3h4v3h2v-3h3v14z"/></svg>
@@ -129,109 +128,219 @@
         </header>
 
         <div class="hero">
-            <h2>Te damos la bienvenida a la tienda oficial de <b>Musefitve</b></h2>
+            <h2>Te damos la bienvenida a la tienda oficial de <b>Musefit.ve</b></h2>
             <p>📦 ¡Llegamos a donde estés! Envío seguro a todo el país. Compra fácil desde casa. ✨</p>
             <button onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ver Catálogo</button>
         </div>
 
         <div class="container" id="productos">
             <div id="adminSearchBox" style="display: none; background: #111; padding: 25px; border-radius: 16px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <input type="text" id="orderSearchInput" placeholder="Pega el código [ID:...] de WhatsApp aquí" style="width: 70%; padding: 12px 20px; border-radius: 8px; border: none; font-size: 14px; outline: none;">
+                <input type="text" id="orderSearchInput" placeholder="Pega el link secreto del pedido aquí" style="width: 70%; padding: 12px 20px; border-radius: 8px; border: none; font-size: 14px; outline: none;">
                 <button onclick="buscarPedidoManual()" style="padding: 12px 25px; background: #25D366; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-left: 10px;">Ver Pedido</button>
             </div>
 
             <div class="categories">
                 <button class="category-btn active" data-target="todo">Todo</button>
                 <button class="category-btn" data-target="tops">Tops</button>
-                <button class="category-btn" data-target="leggings">Leggings</button>
+                <button class="category-btn" data-target="camisetas">Camisetas</button>
+                <button class="category-btn" data-target="jackets">Jackets</button>
                 <button class="category-btn" data-target="conjuntos">Conjuntos</button>
+                <button class="category-btn" data-target="leggins">Leggins</button>
             </div>
 
             <div class="product-grid">
                 
-                <div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto. Tela suplex de alta resistencia.', ['S', 'M', 'L'], ['Negro', 'Rosa Neón'], ['https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg', 'https://via.placeholder.com/600x800/dddddd/333333/?text=Espalda'])">
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['-S', 'M', '-L'], ['Marron'], ['https://i.ibb.co/rKjvXCX3/IMG-1258.jpg', 'https://i.ibb.co/4nD8g3RH/IMG-1259.jpg'])">
                     <span class="badge">Nuevo</span>
                     <div class="image-wrapper">
-                        <img src="https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag">Babalú</span>
-                        <p class="product-title">Top Manga Sisa Compresión</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-<div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto. Tela suplex de alta resistencia.', ['S', 'M', 'L'], ['Negro', 'Rosa Neón'], ['https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg', 'https://via.placeholder.com/600x800/dddddd/333333/?text=Espalda'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag">Babalú</span>
-                        <p class="product-title">Top Manga Sisa Compresión</p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto. Tela suplex de alta resistencia.', ['S', 'M', 'L'], ['Negro', 'Rosa Neón'], ['https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg', 'https://via.placeholder.com/600x800/dddddd/333333/?text=Espalda'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg" class="product-image">
+                        <img src="https://i.ibb.co/prKxTpTC/IMG-1260.jpg" class="product-image">
                     </div>
                     <div class="product-info">
                         <span class="brand-tag"></span>
-                        <p class="product-title">Top Manga Sisa Compresión</p>
+                        <p class="product-title">Top Deportivo</p>
                         <p class="product-price">$35.00</p>
                     </div>
                 </div>
 
-                <div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto. Tela suplex de alta resistencia.', ['S', 'M', 'L'], ['Negro', 'Rosa Neón'], ['https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg', 'https://i.ibb.co/WrJZdkM/Whats-App-Image-2026-05-30-at-4-45-29-PM.jpg'])">
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['XS', 'S', '-M', '-L'], ['Burdeos' , 'Marron' , 'Azul'], ['https://i.ibb.co/zW0bjCzV/IMG-1317.jpg', 'https://i.ibb.co/VYcc02P9/IMG-1318.jpg','https://i.ibb.co/HLksySh5/IMG-1293.jpg','https://i.ibb.co/6cm0r2vb/IMG-1294.jpg','https://i.ibb.co/fzNpbV6M/IMG-1291.jpg','https://i.ibb.co/0pb8k12H/IMG-1292.jpg'])">
                     <span class="badge">Nuevo</span>
                     <div class="image-wrapper">
-                        <img src="https://i.ibb.co/WrJZdkM/Whats-App-Image-2026-05-30-at-4-45-29-PM.jpg" class="product-image">
+                        <img src="https://i.ibb.co/zW0bjCzV/IMG-1317.jpg" class="product-image">
                     </div>
                     <div class="product-info">
-                        <span class="brand-tag">Babalú</span>
-                        <p class="product-title"></p>
-                        <p class="product-price">$35.00</p>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="tops" onclick="openModal('Top Manga Sisa Compresión', 'Babalú', 35.00, 'Top deportivo diseñado para alto impacto. Tela suplex de alta resistencia.', ['S', 'M', 'L'], ['Negro', 'Rosa Neón'], ['https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg', 'https://via.placeholder.com/600x800/dddddd/333333/?text=Espalda'])">
-                    <span class="badge">Nuevo</span>
-                    <div class="image-wrapper">
-                        <img src="https://i.ibb.co/MkmD4DNT/Whats-App-Image-2026-05-30-at-4-45-28-PM.jpg" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <span class="brand-tag">Babalú</span>
-                        <p class="product-title">Top Manga Sisa Compresión</p>
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
                         <p class="product-price">$35.00</p>
                     </div>
                 </div>
                 
-                <div class="product-card" data-category="leggings" onclick="openModal('Legging Control Abdomen', 'Babalú', 45.00, 'Legging deportivo de pretina alta que moldea tu figura y no transparenta.', ['S', 'M'], ['Azul Marino', 'Gris'], ['https://via.placeholder.com/600x800/e0e0e0/333333/?text=Legging+1', 'https://via.placeholder.com/600x800/d0d0d0/333333/?text=Legging+2'])">
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Amarillo' , 'Morado'], ['https://i.ibb.co/TM0H38xW/IMG-1272.jpg', 'https://i.ibb.co/396hF56y/IMG-1269.jpg'])">
+                    <span class="badge">Nuevo</span>
                     <div class="image-wrapper">
-                        <img src="https://via.placeholder.com/600x800/e0e0e0/333333/?text=Legging+1" class="product-image">
+                        <img src="https://i.ibb.co/TM0H38xW/IMG-1272.jpg" class="product-image">
                     </div>
                     <div class="product-info">
-                        <span class="brand-tag">Babalú</span>
-                        <p class="product-title">Legging Control Abdomen</p>
-                        <p class="product-price">$45.00</p>
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
                     </div>
                 </div>
 
-                <div class="product-card" data-category="conjuntos" onclick="openModal('Conjunto Elite 2 Piezas', 'Shein', 75.00, 'Outfit completo para entrenar. Incluye top de soporte medio y legging push up.', ['S', 'M', 'L'], ['Verde Oliva', '-Blanco'], ['https://via.placeholder.com/600x800/ececec/333333/?text=Conjunto+Completo', 'https://via.placeholder.com/600x800/dcdcdc/333333/?text=Textura'])">
-                    <span class="badge">Bestseller</span>
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Blanco' , 'Marron'], ['https://i.ibb.co/0RcLd5JP/IMG-1321.jpg', 'https://i.ibb.co/YB36R7n7/IMG-1324.jpg'])">
+                    <span class="badge">Nuevo</span>
                     <div class="image-wrapper">
-                        <img src="https://via.placeholder.com/600x800/ececec/333333/?text=Conjunto+Completo" class="product-image">
+                        <img src="https://i.ibb.co/0RcLd5JP/IMG-1321.jpg" class="product-image">
                     </div>
                     <div class="product-info">
-                        <span class="brand-tag">Shein</span>
-                        <p class="product-title">Conjunto Elite 2 Piezas</p>
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Celeste'], ['https://i.ibb.co/1GSPW2MS/IMG-1322.jpg', 'https://i.ibb.co/LWL4fvX/IMG-1323.jpg'])">
+                    <span class="badge">Nuevo</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/1GSPW2MS/IMG-1322.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Marron' , 'Blanco crema'], ['https://i.ibb.co/wh6TLS98/IMG-1241.jpg', 'https://i.ibb.co/8nJC4NFd/IMG-1242.jpg','https://i.ibb.co/NnszLTDD/IMG-1244.jpg','https://i.ibb.co/zhRxQzyL/IMG-1243.jpg'])">
+                    <span class="badge">Nuevo</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/wh6TLS98/IMG-1241.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'], ['Purpura'], ['https://i.ibb.co/LhRcfBMH/IMG-1268.jpg'])">
+                    <span class="badge">Nuevo</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/LhRcfBMH/IMG-1268.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tops" onclick="openModal('Top Deportivo', '', 35.00, 'Top deportivo diseñado para alto impacto.', ['S', '-M', '-L'],['Rojo', 'Purpura', 'Blanco'] , ['https://i.ibb.co/CKvHnvvZ/IMG-1287.jpg', 'https://i.ibb.co/F17Kcy9/IMG-1288.jpg','https://i.ibb.co/s9wBDXny/IMG-1252.jpg'])">
+                    <span class="badge">Nuevo</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/jktnVhTm/IMG-1374.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Deportivo</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top de tirantes y legging.', ['S', '-M', '-L'], ['Negro', 'Burdeos'], ['https://i.ibb.co/SXfndJNX/IMG-1231.jpg','https://i.ibb.co/XZv0XY1r/IMG-1232.jpg', 'https://i.ibb.co/QjFGmNpp/IMG-1233.jpg','https://i.ibb.co/DDNfZft4/IMG-1234.jpg','https://i.ibb.co/6cSpbPdR/IMG-1235.jpg','https://i.ibb.co/BHH8sx6W/IMG-1236.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/DDNfZft4/IMG-1234.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top deportivo y leggin</p>
                         <p class="product-price">$75.00</p>
                     </div>
                 </div>
 
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y leggins.', ['S', '-M', '-L'], ['Morado', 'Gris oscuro'], ['https://i.ibb.co/hxYp9VQv/IMG-1311.jpg', 'https://i.ibb.co/rKYjnMQP/IMG-1312.jpg','https://i.ibb.co/S4jHYY0L/IMG-1310.jpg','https://i.ibb.co/Vc0vdZCZ/IMG-1301.jpg','https://i.ibb.co/fz986KQr/IMG-1308.jpg','https://i.ibb.co/FkySd24H/IMG-1302.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/hxYp9VQv/IMG-1311.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top deportivo y leggins</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>         
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y leggins.', ['XS','-S', '-M', '-L'], ['Marron chocolate'], ['https://i.ibb.co/VYLs44G9/IMG-1315.jpg', 'https://i.ibb.co/7dFzk77K/IMG-1316.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/VYLs44G9/IMG-1315.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top deportivo y leggins</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>        
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top  y Shorts running', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts running.', ['S', '-M', '-L'], ['Negro'], ['https://i.ibb.co/ns84Q6sS/IMG-1295.jpg', 'https://i.ibb.co/VcGKCVLZ/IMG-1296.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/ns84Q6sS/IMG-1295.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top y Shorts running</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>        
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top  y Shorts running', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts running.', ['S', '-M', '-L'], [ 'Negro','Gris'], ['https://i.ibb.co/vxbGyHpb/IMG-1299.jpg', 'https://i.ibb.co/svD5mh51/IMG-1300.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/vxbGyHpb/IMG-1299.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top y Shorts running</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>   
+                
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top Helter y Shorts', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye top y shorts.', ['S', '-M', '-L'], ['Gris Oscuro', 'Marron'], ['https://i.ibb.co/XZG1vYH7/IMG-1240.jpg', 'https://i.ibb.co/tw7DC0ST/IMG-1239.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/XZG1vYH7/IMG-1240.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top Helter y Shorts</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Blusa y leggins', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye blusa y leggins.', ['S', '-M', '-L'], ['Marron', 'Verde'], ['https://i.ibb.co/zT9zjxw3/IMG-1290.jpg', 'https://i.ibb.co/XrYrMpMz/IMG-1289.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/zT9zjxw3/IMG-1290.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Blusa y leggins</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>          
+
+                <div class="product-card" data-category="conjuntos" onclick="openModal('Top deportivo y Shorts', '2 piezas', 75.00, 'Outfit completo para entrenar. Incluye Top y Shorts.', ['S', '-M', '-L'], ['Gris'], ['https://i.ibb.co/m7q60Rt/IMG-1306.jpg', 'https://i.ibb.co/KxdZLgLC/IMG-1307.jpg'])">
+                    <span class="badge">Bestseller</span>
+                    <div class="image-wrapper">
+                        <img src="https://i.ibb.co/m7q60Rt/IMG-1306.jpg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand-tag"></span>
+                        <p class="product-title">Top deportivo y Shorts</p>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>          
             </div>
         </div>
 
@@ -305,8 +414,7 @@
         let currentImageIndex = 0;
         let currentProductImages = [];
 
-        // 1. MEMORIA
-        const carritoGuardado = localStorage.getItem('miTiendaCarrito_v3');
+        const carritoGuardado = localStorage.getItem('miTiendaCarrito_v4');
         if (carritoGuardado) {
             try { cart = JSON.parse(carritoGuardado); if (!Array.isArray(cart)) cart = []; } 
             catch(e) { cart = []; }
@@ -315,14 +423,12 @@
         window.onload = function() {
             updateCartUI();
             inicializarFiltros();
-            inicializarModoEmpaqueAlCargar();
+            inicializarModoEmpaqueAlCargar(); // Aquí ocurre la magia del enlace nuevo
         };
 
-        // 2. MODAL Y CARRUSEL PREMIUM
         function openModal(title, brand, price, desc, sizes, colors, images) {
             currentProductImages = Array.isArray(images) ? images : [images];
             currentImageIndex = 0; 
-
             currentProduct = { title, brand, price, desc, imgUrl: currentProductImages[0] };
             
             document.getElementById('modalBrand').innerText = brand;
@@ -406,7 +512,6 @@
             currentProduct = null;
         }
 
-        // 3. CARRITO LOGICA
         function addToCart() {
             if (!currentProduct) return;
             const sizeSelected = document.querySelector('#modalSizes .chip.selected');
@@ -426,7 +531,7 @@
             };
 
             cart.push(product);
-            localStorage.setItem('miTiendaCarrito_v3', JSON.stringify(cart));
+            localStorage.setItem('miTiendaCarrito_v4', JSON.stringify(cart));
             updateCartUI();
             closeModal();
             toggleCart(); 
@@ -472,7 +577,7 @@
 
         function removeFromCart(index) {
             cart.splice(index, 1);
-            localStorage.setItem('miTiendaCarrito_v3', JSON.stringify(cart));
+            localStorage.setItem('miTiendaCarrito_v4', JSON.stringify(cart));
             updateCartUI();
         }
 
@@ -486,9 +591,9 @@
             return true;
         }
 
+        /* 🌟 GENERADOR DE ENLACE MÁGICO 🌟 */
         function generateWhatsAppLink(total) {
-            // 🚨 PON AQUÍ TU NÚMERO DE TELÉFONO 🚨
-            const tuTelefono = "584140000000"; 
+            const tuTelefono = "18706487677"; 
             const baseWa = `https://wa.me/${tuTelefono}`;
             
             if (cart.length === 0) {
@@ -497,12 +602,18 @@
                 return;
             }
 
+            // Aquí convertimos el pedido en un enlace que puedes clickear en WhatsApp
             const carritoCodificado = btoa(encodeURIComponent(JSON.stringify(cart)));
-            let mensaje = "🛍️ *¡Hola! Me interesa este pedido:*%0A%0A";
-            cart.forEach(item => { mensaje += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}%0A`; });
-            mensaje += `%0A*Total: $${total.toFixed(2)}*%0A%0A---------------------------%0A*ID:* [ID:${carritoCodificado}]`; 
+            const linkMagico = `https://musefitve.netlify.app/?pedido=${encodeURIComponent(carritoCodificado)}`;
+            
+            let textoWa = "🛍️ *¡Hola! Me interesa este pedido:*\n\n";
+            cart.forEach(item => { 
+                textoWa += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}\n`; 
+            });
+            textoWa += `\n*Total: $${total.toFixed(2)}*\n\n---------------------------\n`; 
+            textoWa += `*Link secreto para empacar tu orden:*\n${linkMagico}`; 
 
-            const urlFinal = `${baseWa}?text=${mensaje}`;
+            const urlFinal = `${baseWa}?text=${encodeURIComponent(textoWa)}`;
             document.getElementById('btnCheckout').href = urlFinal;
             document.getElementById('waFloatingBtn').href = urlFinal;
         }
@@ -511,14 +622,13 @@
             if (cart.length > 0) {
                 setTimeout(() => {
                     cart = [];
-                    localStorage.removeItem('miTiendaCarrito_v3');
+                    localStorage.removeItem('miTiendaCarrito_v4');
                     updateCartUI();
                     toggleCart();
                 }, 1500);
             }
         });
 
-        // 4. FILTROS Y ADMIN
         function inicializarFiltros() {
             const buttons = document.querySelectorAll('.category-btn');
             const products = document.querySelectorAll('.product-card');
@@ -534,17 +644,46 @@
             });
         }
 
-        function buscarPedidoManual() {
-            const input = document.getElementById('orderSearchInput').value;
-            const match = input.match(/\[ID:(.*?)\]/);
-            if (match && match[1]) {
+        /* 🌟 EL LECTOR DEL ENLACE MÁGICO 🌟 */
+        function inicializarModoEmpaqueAlCargar() {
+            const params = new URLSearchParams(window.location.search);
+            const pedidoSecreto = params.get('pedido');
+            
+            if (pedidoSecreto) {
                 try {
-                    const carritoGuardado = JSON.parse(decodeURIComponent(atob(match[1])));
+                    const carritoGuardado = JSON.parse(decodeURIComponent(atob(pedidoSecreto)));
                     document.getElementById('catalogView').style.display = 'none';
                     document.getElementById('orderSummaryView').style.display = 'block';
                     mostrarModoEmpaque(carritoGuardado);
-                } catch(e) { alert("Error: Código no válido."); }
-            } else { alert("Pega el código completo [ID:...]"); }
+                } catch(e) {
+                    alert("⚠️ El enlace que abriste no es válido o está incompleto.");
+                }
+            }
+        }
+
+        /* Lector manual por si alguna vez el link falla */
+        function buscarPedidoManual() {
+            let input = document.getElementById('orderSearchInput').value.trim();
+            let codigoLimpio = input;
+
+            // Si por error pegas el enlace entero, el sistema es inteligente y extrae solo el código
+            if (input.includes('?pedido=')) {
+                try { codigoLimpio = new URL(input).searchParams.get('pedido'); } catch(e){}
+            } else {
+                const match = input.match(/\[ID:(.*?)\]/);
+                if (match) codigoLimpio = match[1];
+            }
+
+            if (codigoLimpio) {
+                try {
+                    const carritoGuardado = JSON.parse(decodeURIComponent(atob(codigoLimpio)));
+                    document.getElementById('catalogView').style.display = 'none';
+                    document.getElementById('orderSummaryView').style.display = 'block';
+                    mostrarModoEmpaque(carritoGuardado);
+                } catch(e) { 
+                    alert("❌ Error: Código inválido. Por favor, usa el enlace directo que llegó al WhatsApp."); 
+                }
+            }
         }
 
         function mostrarModoEmpaque(productos) {
@@ -554,28 +693,16 @@
             productos.forEach(item => {
                 total += item.price;
                 container.innerHTML += `
-                    <div style="display: flex; gap: 20px; background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee;">
-                        <img src="${item.imgUrl}" style="width: 120px; height: 120px; object-fit: contain; background: #fff; border-radius: 8px; border: 1px solid #ddd;">
+                    <div style="display: flex; gap: 20px; background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; align-items: center;">
+                        <img src="${item.imgUrl}" style="width: 90px; height: 110px; object-fit: cover; object-position: top center; background: #fff; border-radius: 8px; border: 1px solid #ddd;">
                         <div>
-                            <h3 style="margin-bottom: 10px; font-size: 16px;">${item.title}</h3>
+                            <h3 style="margin-bottom: 10px; font-size: 16px; color: #111;">${item.title}</h3>
                             <span style="background: #111; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-right: 10px;">Talla: ${item.size}</span>
                             <span style="background: #25D366; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600;">Color: ${item.color}</span>
                         </div>
                     </div>`;
             });
             document.getElementById('summaryTotalText').innerText = `Total: $${total.toFixed(2)}`;
-        }
-
-        function inicializarModoEmpaqueAlCargar() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('pedido')) {
-                try {
-                    const carritoGuardado = JSON.parse(decodeURIComponent(atob(params.get('pedido'))));
-                    document.getElementById('catalogView').style.display = 'none';
-                    document.getElementById('orderSummaryView').style.display = 'block';
-                    mostrarModoEmpaque(carritoGuardado);
-                } catch(e) {}
-            }
         }
 
         window.addEventListener("keydown", function(event) {
@@ -589,5 +716,7 @@
             if (event.target === document.getElementById('productModal')) closeModal();
         };
     </script>
+</body>
+</html>
 </body>
 </html>
