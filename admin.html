@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musefitve | Panel de Control</title>
+    <title>Musefitve | Panel de Control 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -14,31 +14,43 @@
         .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         h1 { text-align: center; margin-bottom: 30px; color: var(--primary); }
         
-        #zonaFormulario { scroll-margin-top: 20px; }
+        /* Estilos del Formulario */
+        #zonaFormulario { scroll-margin-top: 20px; } /* Para que al editar baje suave */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; transition: 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
         textarea { grid-column: 1 / -1; resize: vertical; }
         .full-width { grid-column: 1 / -1; }
         
+        /* Botones */
         .btn-main { background: var(--primary); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .btn-main:hover { background: #333; transform: translateY(-2px); }
         
-        #btnCancelarEdicion { background: #eee; color: #333; margin-top: 10px; display: none; }
+        #btnCancelarEdicion { background: #eee; color: #333; margin-top: 10px; display: none; } /* Oculto por defecto */
         #btnCancelarEdicion:hover { background: #ddd; }
 
+        /* Estilos de la Lista de Inventario */
         .inventory-list { margin-top: 40px; border-top: 2px solid #eee; padding-top: 30px; }
-        .item-card { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .item-card { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; transition: 0.3s; }
+        .item-card:hover { background: #fff; border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
         .item-info { display: flex; align-items: center; gap: 15px; }
         .item-img { width: 65px; height: 65px; object-fit: cover; border-radius: 10px; background: #fff; border: 1px solid #eee; }
         .item-stock { font-weight: bold; padding: 5px 12px; border-radius: 20px; background: #eee; font-size: 12px; margin-left: 5px; }
         .item-stock.low { background: #ffebee; color: #d32f2f; }
         
-        .actions { display: flex; gap: 8px; }
+        .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
         .actions button { width: auto; padding: 8px 15px; font-size: 12px; border-radius: 6px; }
         
         .btn-restar { background: #ff9800; }
         .btn-editar { background: var(--blue); }
         .btn-borrar { background: #d32f2f; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .item-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .actions { width: 100%; justify-content: flex-start; }
+        }
     </style>
 </head>
 <body>
@@ -50,7 +62,7 @@
             <h2 id="tituloFormulario" style="margin-bottom: 15px; font-size: 18px; color: #555;">Subir Nueva Prenda</h2>
             <form id="formPrenda" onsubmit="procesarFormulario(event)">
                 <div class="form-grid">
-                    <input type="text" id="pTitulo" placeholder="Nombre (Ej. Top Deportivo)" required>
+                    <input type="text" id="pTitulo" placeholder="Nombre (Ej. Top Deportivo Babalú)" required>
                     <input type="number" id="pPrecio" placeholder="Precio en $" step="0.01" required>
                     
                     <select id="pCategoria" required>
@@ -65,40 +77,35 @@
                     
                     <input type="number" id="pCantidad" placeholder="Cantidad en Stock (Ej. 5)" required>
                     
-                    <input type="text" class="full-width" id="pBadge" placeholder="Etiqueta (Ej: Nuevo, Bestseller, Oferta o déjalo vacío para quitarlo)">
-                    
-                    <input type="text" class="full-width" id="pTallas" placeholder="Tallas separadas por coma (Ej. S, M, L)" required>
-                    <input type="text" class="full-width" id="pColores" placeholder="Colores separados por coma (Ej. Negro, Blanco)" required>
+                    <input type="text" class="full-width" id="pTallas" placeholder="Tallas separadas por coma (Ej. S, M, L, -XL)" required>
+                    <input type="text" class="full-width" id="pColores" placeholder="Colores separados por coma (Ej. Negro, Burdeos)" required>
                     <input type="text" class="full-width" id="pImagenes" placeholder="Links de ImgBB separados por coma" required>
                     
-                    <textarea id="pDesc" rows="2" placeholder="Descripción de la prenda" required></textarea>
+                    <textarea id="pDesc" rows="2" placeholder="Descripción corta de la prenda" required></textarea>
                 </div>
                 
                 <button type="submit" id="btnSubmitForm" class="btn-main">➕ Subir Producto a la Tienda</button>
+                
                 <button type="button" id="btnCancelarEdicion" class="btn-main" onclick="cancelarEdicion()">❌ Cancelar Edición</button>
             </form>
         </div>
 
         <div class="inventory-list">
-            <h2 style="margin-bottom: 20px; font-size: 20px; text-align: center;">Inventario Actual</h2>
+            <h2 style="margin-bottom: 20px; font-size: 20px; text-align: center;">Inventario Real en Internet</h2>
             <div id="listaInventario">Cargando inventario...</div>
         </div>
     </div>
 
     <script>
-        // 🚨 CONFIGURACIÓN CORREGIDA 🚨
-    const firebaseConfig = {
-        databaseURL: "https://musefitve-default-rtdb.firebaseio.com/"
-    };
-    firebase.initializeApp(firebaseConfig);
-    
-    // Declaramos 'database' y luego 'db' para que todo el código funcione
-    const database = firebase.database();
-    const db = database.ref('productos');
+        // CONFIGURACIÓN DE FIREBASE (Usa tu link real)
+        const firebaseConfig = { databaseURL: "https://musefitve-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database().ref('productos');
 
+        // 🚨 VARIABLE GLOBAL CLAVE: Si está vacía, estamos creando. Si tiene un ID, estamos editando.
         let idProductoEnEdicion = null;
 
-        // --- MOSTRAR INVENTARIO ---
+        // --- 1. MOSTRAR INVENTARIO (Leer) ---
         db.on('value', (snapshot) => {
             const data = snapshot.val();
             const lista = document.getElementById('listaInventario');
@@ -109,20 +116,22 @@
                 return;
             }
 
-            Object.keys(data).forEach(key => {
+            // Ordenamos alfabéticamente por título
+            const keysOrdenadas = Object.keys(data).sort((a,b) => data[a].titulo.localeCompare(data[b].titulo));
+
+            keysOrdenadas.forEach(key => {
                 const prod = data[key];
-                const img = (prod.imagenes && prod.imagenes[0]) ? prod.imagenes[0] : '';
+                const img = (prod.imagenes && prod.imagenes[0]) ? prod.imagenes[0] : 'https://via.placeholder.com/65?text=No+Foto';
                 const stock = parseInt(prod.cantidad || 0);
                 const stockClase = stock <= 0 ? 'low' : '';
                 const textoStock = stock <= 0 ? 'Agotado' : `${stock} disp.`;
-                const tagVisual = (prod.badge && prod.badge !== "") ? `[${prod.badge}]` : '[Sin etiqueta]';
 
                 lista.innerHTML += `
                     <div class="item-card" id="card-${key}">
                         <div class="item-info">
                             <img src="${img}" class="item-img">
                             <div>
-                                <h4 style="font-size: 15px;">${prod.titulo} <span style="font-size:12px; color:#2196F3; font-weight:normal;">${tagVisual}</span></h4>
+                                <h4 style="font-size: 15px;">${prod.titulo}</h4>
                                 <p style="font-size: 12px; color: #777; margin-top: 2px;">
                                     $${parseFloat(prod.precio).toFixed(2)} | 
                                     <span class="item-stock ${stockClase}">${textoStock}</span>
@@ -139,76 +148,103 @@
             });
         });
 
-        // --- GUARDAR O ACTUALIZAR ---
+        // --- 2. LÓGICA DEL FORMULARIO (Crear o Actualizar) ---
         function procesarFormulario(e) {
             e.preventDefault();
             
+            // Convertimos los textos separados por coma en Listas (Arrays) limpios
             const tallasArray = document.getElementById('pTallas').value.split(',').map(s => s.trim()).filter(s => s !== "");
             const coloresArray = document.getElementById('pColores').value.split(',').map(s => s.trim()).filter(s => s !== "");
             const imagenesArray = document.getElementById('pImagenes').value.split(',').map(s => s.trim()).filter(s => s !== "");
 
+            // Estructura profesional del producto
             const datosPrenda = {
                 titulo: document.getElementById('pTitulo').value.trim(),
                 precio: parseFloat(document.getElementById('pPrecio').value),
                 categoria: document.getElementById('pCategoria').value,
                 cantidad: parseInt(document.getElementById('pCantidad').value),
-                badge: document.getElementById('pBadge').value.trim(), // Aquí va tu etiqueta
                 tallas: tallasArray,
                 colores: coloresArray,
                 imagenes: imagenesArray,
                 descripcion: document.getElementById('pDesc').value.trim(),
-                marca: 'Musefitve'
+                marca: 'Musefitve',
+                badge: 'Nuevo'
             };
 
             if (idProductoEnEdicion) {
-                db.child(idProductoEnEdicion).set(datosPrenda).then(() => {
-                    alert("✅ ¡Cambios guardados!");
-                    cancelarEdicion();
-                });
+                // 🚨 MODO EDICIÓN: Sobreescribimos el producto existente 🚨
+                db.child(idProductoEnEdicion).set(datosPrenda)
+                    .then(() => {
+                        alert("✅ ¡Cambios guardados correctamente!");
+                        cancelarEdicion(); // Volver al modo normal
+                    })
+                    .catch(error => alert("❌ Error al guardar: " + error));
             } else {
-                db.push(datosPrenda).then(() => {
-                    alert("🎉 ¡Prenda subida con éxito!");
-                    document.getElementById('formPrenda').reset();
-                });
+                // MODO CREAR: Creamos uno nuevo
+                db.push(datosPrenda)
+                    .then(() => {
+                        alert("🎉 ¡Nueva prenda subida exitosamente!");
+                        document.getElementById('formPrenda').reset();
+                    });
             }
         }
 
-        // --- PREPARAR EDICIÓN ---
+        // --- 3. FUNCIONES DE EDICIÓN ---
+        
+        // Carga los datos de la tarjeta al formulario
         function prepararEdicion(id) {
+            // 1. Buscamos el producto en la base de datos una sola vez
             db.child(id).once('value').then((snapshot) => {
                 const prod = snapshot.val();
                 if(!prod) return;
 
+                // 2. Activamos el modo edición global
                 idProductoEnEdicion = id;
 
+                // 3. Llenamos el formulario (convertimos arrays a texto con comas)
                 document.getElementById('pTitulo').value = prod.titulo;
                 document.getElementById('pPrecio').value = prod.precio;
                 document.getElementById('pCategoria').value = prod.categoria;
                 document.getElementById('pCantidad').value = prod.cantidad;
-                document.getElementById('pBadge').value = prod.badge || ''; // Carga el badge actual
                 document.getElementById('pTallas').value = prod.tallas.join(', ');
                 document.getElementById('pColores').value = prod.colores.join(', ');
                 document.getElementById('pImagenes').value = prod.imagenes.join(', ');
                 document.getElementById('pDesc').value = prod.descripcion;
 
+                // 4. Cambiamos la interfaz visual
                 document.getElementById('tituloFormulario').innerText = "✏️ Editando: " + prod.titulo;
-                document.getElementById('btnSubmitForm').innerText = "💾 Guardar Cambios";
+                document.getElementById('tituloFormulario').style.color = "var(--blue)";
+                document.getElementById('btnSubmitForm').innerText = "💾 Guardar Cambios Definitivos";
                 document.getElementById('btnSubmitForm').style.background = "var(--blue)";
-                document.getElementById('btnCancelarEdicion').style.display = "block";
+                document.getElementById('btnCancelarEdicion').style.display = "block"; // Mostramos botón cancelar
 
+                // 5. Subimos la pantalla suavemente al formulario
                 document.getElementById('zonaFormulario').scrollIntoView({ behavior: 'smooth' });
+                
+                // Opcional: Resaltamos la tarjeta que estamos editando
+                document.querySelectorAll('.item-card').forEach(c => c.style.borderColor = "#eee");
+                document.getElementById('card-'+id).style.borderColor = "var(--blue)";
             });
         }
 
+        // Vuelve el formulario a su estado original
         function cancelarEdicion() {
-            idProductoEnEdicion = null;
-            document.getElementById('formPrenda').reset();
+            idProductoEnEdicion = null; // Desactivamos modo edición
+            document.getElementById('formPrenda').reset(); // Limpiamos campos
+            
+            // Restauramos interfaz visual
             document.getElementById('tituloFormulario').innerText = "Subir Nueva Prenda";
+            document.getElementById('tituloFormulario').style.color = "#555";
             document.getElementById('btnSubmitForm').innerText = "➕ Subir Producto a la Tienda";
             document.getElementById('btnSubmitForm').style.background = "var(--primary)";
-            document.getElementById('btnCancelarEdicion').style.display = "none";
+            document.getElementById('btnCancelarEdicion').style.display = "none"; // Ocultamos cancelar
+            
+            // Quitamos resaltado de tarjetas
+            document.querySelectorAll('.item-card').forEach(c => c.style.borderColor = "#eee");
         }
 
+        // --- 4. ACCIONES RÁPIDAS (Restar/Borrar) ---
+        
         function restarStock(id, stockActual) {
             if (stockActual > 0) {
                 db.child(id).update({ cantidad: stockActual - 1 });
@@ -218,11 +254,16 @@
         }
 
         function borrarProducto(id) {
-            if(confirm("¿Seguro que quieres eliminar esta prenda?")) {
+            if(idProductoEnEdicion === id) {
+                alert("❌ No puedes borrar este producto mientras lo estás editando. Cancela la edición primero.");
+                return;
+            }
+            if(confirm("⚠️ ¿Estás TOTALMENTE segura? Esta prenda desaparecerá de la tienda de inmediato.")) {
                 db.child(id).remove();
             }
         }
     </script>
 </body>
+</html>
 </html>
 
