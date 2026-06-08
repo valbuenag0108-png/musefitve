@@ -86,12 +86,15 @@
     </div>
 
     <script>
-        // 🚨 CONFIGURACIÓN DE TU BASE DE DATOS (Paso 2) 🚨
-        const firebaseConfig = {
-            databaseURL: "https://musefitve-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // 🚨 CONFIGURACIÓN CORREGIDA 🚨
+    const firebaseConfig = {
+        databaseURL: "https://musefitve-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+    
+    // Declaramos 'database' y luego 'db' para que todo el código funcione
+    const database = firebase.database();
+    const db = database.ref('productos');
 
         let idProductoEnEdicion = null;
 
