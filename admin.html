@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musefitve | Panel de Control 2.0</title>
+    <title>Musefitve | Panel SKU 2.1</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -14,55 +14,41 @@
         .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         h1 { text-align: center; margin-bottom: 30px; color: var(--primary); }
         
-        /* Estilos del Formulario */
-        #zonaFormulario { scroll-margin-top: 20px; } /* Para que al editar baje suave */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; transition: 0.3s; }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-        textarea { grid-column: 1 / -1; resize: vertical; }
-        .full-width { grid-column: 1 / -1; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; }
+        textarea, .full-width { grid-column: 1 / -1; }
         
-        /* Botones */
-        .btn-main { background: var(--primary); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
-        .btn-main:hover { background: #333; transform: translateY(-2px); }
+        .btn-main { background: var(--primary); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .btn-main:hover { background: #333; }
         
-        #btnCancelarEdicion { background: #eee; color: #333; margin-top: 10px; display: none; } /* Oculto por defecto */
-        #btnCancelarEdicion:hover { background: #ddd; }
+        .box-sku { grid-column: 1 / -1; background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 10px; }
+        .sku-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
+        .sku-row input { width: 100px; padding: 8px; text-align: center; }
 
-        /* Estilos de la Lista de Inventario */
         .inventory-list { margin-top: 40px; border-top: 2px solid #eee; padding-top: 30px; }
-        .item-card { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; transition: 0.3s; }
-        .item-card:hover { background: #fff; border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
-        .item-info { display: flex; align-items: center; gap: 15px; }
-        .item-img { width: 65px; height: 65px; object-fit: cover; border-radius: 10px; background: #fff; border: 1px solid #eee; }
-        .item-stock { font-weight: bold; padding: 5px 12px; border-radius: 20px; background: #eee; font-size: 12px; margin-left: 5px; }
-        .item-stock.low { background: #ffebee; color: #d32f2f; }
+        .item-card { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
+        .item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        .item-img { width: 65px; height: 65px; object-fit: cover; border-radius: 10px; }
         
-        .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-        .actions button { width: auto; padding: 8px 15px; font-size: 12px; border-radius: 6px; }
+        .variant-manager { background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e2e2; }
+        .variant-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+        .variant-line:last-child { border: none; }
         
-        .btn-restar { background: #ff9800; }
-        .btn-editar { background: var(--blue); }
-        .btn-borrar { background: #d32f2f; }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .item-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .actions { width: 100%; justify-content: flex-start; }
-        }
+        .btn-sm { padding: 4px 10px; font-size: 11px; background: #ff9800; border: none; color: white; border-radius: 4px; cursor: pointer; }
+        .btn-editar { background: var(--blue); padding: 8px 15px; font-size: 12px; color: white; border-radius: 6px; border: none; cursor: pointer;}
+        .btn-borrar { background: #d32f2f; padding: 8px 15px; font-size: 12px; color: white; border-radius: 6px; border: none; cursor: pointer;}
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>📦 Panel de Inventario Musefitve</h1>
+        <h1>📦 Panel SKU Inteligente Musefitve</h1>
         
         <div id="zonaFormulario">
             <h2 id="tituloFormulario" style="margin-bottom: 15px; font-size: 18px; color: #555;">Subir Nueva Prenda</h2>
             <form id="formPrenda" onsubmit="procesarFormulario(event)">
                 <div class="form-grid">
-                    <input type="text" id="pTitulo" placeholder="Nombre (Ej. Top Deportivo Babalú)" required>
+                    <input type="text" id="pTitulo" placeholder="Nombre (Ej. Top Halter Sleek)" required>
                     <input type="number" id="pPrecio" placeholder="Precio en $" step="0.01" required>
                     
                     <select id="pCategoria" required>
@@ -75,190 +61,212 @@
                         <option value="conjuntos">Conjuntos</option>
                     </select>
                     
-                    <input type="number" id="pCantidad" placeholder="Cantidad en Stock (Ej. 5)" required>
+                    <input type="text" id="pBadge" placeholder="Etiqueta opcional (Ej: Nuevo, Bestseller, Oferta o dejar vacío)">
                     
-                    <input type="text" class="full-width" id="pTallas" placeholder="Tallas separadas por coma (Ej. S, M, L, -XL)" required>
-                    <input type="text" class="full-width" id="pColores" placeholder="Colores separados por coma (Ej. Negro, Burdeos)" required>
-                    <input type="text" class="full-width" id="pImagenes" placeholder="Links de ImgBB separados por coma" required>
-                    
-                    <textarea id="pDesc" rows="2" placeholder="Descripción corta de la prenda" required></textarea>
+                    <input type="text" id="pImagenes" class="full-width" placeholder="Links de ImgBB separados por coma" required>
+                    <textarea id="pDesc" rows="2" placeholder="Descripción de la prenda" required></textarea>
+
+                    <div class="box-sku">
+                        <p style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color:#555;">⚙️ Matriz de Atributos</p>
+                        <input type="text" id="pTallas" placeholder="Tallas fijas (Ej: S, M, L)" style="margin-bottom: 10px;" required>
+                        <input type="text" id="pColores" placeholder="Colores fijos (Ej: Negro, Marron)" style="margin-bottom: 15px;" required>
+                        <button type="button" class="btn-main" style="background:#555; padding:8px;" onclick="generarCamposStock()">Generar Combinaciones de Stock</button>
+                        
+                        <div id="contenedorCamposSKU" style="margin-top: 15px;"></div>
+                    </div>
                 </div>
                 
-                <button type="submit" id="btnSubmitForm" class="btn-main">➕ Subir Producto a la Tienda</button>
-                
-                <button type="button" id="btnCancelarEdicion" class="btn-main" onclick="cancelarEdicion()">❌ Cancelar Edición</button>
+                <button type="submit" id="btnSubmitForm" class="btn-main">➕ Guardar Prenda en Internet</button>
+                <button type="button" id="btnCancelarEdicion" class="btn-main" style="background:#eee; color:#333; margin-top:10px; display:none;" onclick="cancelarEdicion()">❌ Cancelar Edición</button>
             </form>
         </div>
 
         <div class="inventory-list">
-            <h2 style="margin-bottom: 20px; font-size: 20px; text-align: center;">Inventario Real en Internet</h2>
+            <h2 style="margin-bottom: 20px; font-size: 18px; text-align: center; color:#555;">Inventario Controlado por SKU</h2>
             <div id="listaInventario">Cargando inventario...</div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN DE FIREBASE (Usa tu link real)
         const firebaseConfig = { databaseURL: "https://musefitve-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database().ref('productos');
 
-        // 🚨 VARIABLE GLOBAL CLAVE: Si está vacía, estamos creando. Si tiene un ID, estamos editando.
         let idProductoEnEdicion = null;
 
-        // --- 1. MOSTRAR INVENTARIO (Leer) ---
+        function generarCamposStock(valoresPreestablecidos = null) {
+            const tallas = document.getElementById('pTallas').value.split(',').map(s => s.trim()).filter(s => s !== "");
+            const colores = document.getElementById('pColores').value.split(',').map(s => s.trim()).filter(s => s !== "");
+            const container = document.getElementById('contenedorCamposSKU');
+            container.innerHTML = '';
+
+            if(tallas.length === 0 || colores.length === 0) {
+                alert("Por favor, ingresa al menos una Talla y un Color.");
+                return;
+            }
+
+            tallas.forEach(t => {
+                colores.forEach(c => {
+                    const skuKey = `${t} - ${c}`;
+                    const stockValue = valoresPreestablecidos ? (valoresPreestablecidos[skuKey] || 0) : '';
+                    
+                    container.innerHTML += `
+                        <div class="sku-row">
+                            <span style="font-size:13px; font-weight:500;">🔹 Talla ${t} | Color ${c}</span>
+                            <input type="number" class="input-sku-value" data-sku="${skuKey}" value="${stockValue}" placeholder="Cant." min="0" required>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function procesarFormulario(e) {
+            e.preventDefault();
+            
+            const varianteInputs = document.querySelectorAll('.input-sku-value');
+            let variantesObjeto = {};
+            
+            varianteInputs.forEach(input => {
+                const key = input.getAttribute('data-sku');
+                const val = parseInt(input.value || 0);
+                variantesObjeto[key] = val;
+            });
+
+            const datosPrenda = {
+                titulo: document.getElementById('pTitulo').value.trim(),
+                precio: parseFloat(document.getElementById('pPrecio').value),
+                categoria: document.getElementById('pCategoria').value,
+                badge: document.getElementById('pBadge').value.trim(), // Guarda la etiqueta o el vacío
+                imagenes: document.getElementById('pImagenes').value.split(',').map(s => s.trim()),
+                descripcion: document.getElementById('pDesc').value.trim(),
+                variantes: variantesObjeto
+            };
+
+            if (idProductoEnEdicion) {
+                db.child(idProductoEnEdicion).set(datosPrenda).then(() => {
+                    alert("✅ ¡Cambios guardados con éxito!");
+                    cancelarEdicion();
+                });
+            } else {
+                db.push(datosPrenda).then(() => {
+                    alert("🎉 ¡Producto guardado con éxito!");
+                    document.getElementById('formPrenda').reset();
+                    document.getElementById('contenedorCamposSKU').innerHTML = '';
+                });
+            }
+        }
+
         db.on('value', (snapshot) => {
             const data = snapshot.val();
             const lista = document.getElementById('listaInventario');
             lista.innerHTML = '';
 
             if (!data) {
-                lista.innerHTML = '<p style="text-align:center; color:#888;">No hay productos en la tienda aún.</p>';
+                lista.innerHTML = '<p>No hay productos en stock.</p>';
                 return;
             }
 
-            // Ordenamos alfabéticamente por título
-            const keysOrdenadas = Object.keys(data).sort((a,b) => data[a].titulo.localeCompare(data[b].titulo));
-
-            keysOrdenadas.forEach(key => {
+            Object.keys(data).forEach(key => {
                 const prod = data[key];
-                const img = (prod.imagenes && prod.imagenes[0]) ? prod.imagenes[0] : 'https://via.placeholder.com/65?text=No+Foto';
-                const stock = parseInt(prod.cantidad || 0);
-                const stockClase = stock <= 0 ? 'low' : '';
-                const textoStock = stock <= 0 ? 'Agotado' : `${stock} disp.`;
+                const img = prod.imagenes ? prod.imagenes[0] : '';
+                const tag = (prod.badge && prod.badge !== "") ? `[${prod.badge}]` : '[Sin etiqueta]';
+                
+                let lineasHTML = '';
+                if(prod.variantes) {
+                    Object.keys(prod.variantes).forEach(vKey => {
+                        const cant = prod.variantes[vKey];
+                        lineasHTML += `
+                            <div class="variant-line">
+                                <span>👗 ${vKey}</span>
+                                <span>
+                                    <b style="color:${cant <= 0 ? '#d32f2f' : '#333'}">${cant} disp.</b>
+                                    <button type="button" class="btn-sm" style="margin-left:10px;" onclick="restarVariante('${key}', '${vKey}', ${cant})">-1 Venta</button>
+                                </span>
+                            </div>
+                        `;
+                    });
+                }
 
                 lista.innerHTML += `
-                    <div class="item-card" id="card-${key}">
-                        <div class="item-info">
-                            <img src="${img}" class="item-img">
-                            <div>
-                                <h4 style="font-size: 15px;">${prod.titulo}</h4>
-                                <p style="font-size: 12px; color: #777; margin-top: 2px;">
-                                    $${parseFloat(prod.precio).toFixed(2)} | 
-                                    <span class="item-stock ${stockClase}">${textoStock}</span>
-                                </p>
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div style="display:flex; align-items:center; gap:15px;">
+                                <img src="${img}" class="item-img">
+                                <div>
+                                    <h3 style="font-size:16px;">${prod.titulo} <span style="font-size:12px; color:#2196F3; font-weight:normal;">${tag}</span></h3>
+                                    <p style="font-size:13px; color:#666;">$${prod.precio.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:10px;">
+                                <button class="btn-editar" onclick="prepararEdicion('${key}')">✏️ Editar</button>
+                                <button class="btn-borrar" onclick="borrarProducto('${key}')">🗑️</button>
                             </div>
                         </div>
-                        <div class="actions">
-                            <button class="btn-restar btn-main" onclick="restarStock('${key}', ${stock})">-1 Venta</button>
-                            <button class="btn-editar btn-main" onclick="prepararEdicion('${key}')">✏️ Editar</button>
-                            <button class="btn-borrar btn-main" onclick="borrarProducto('${key}')">🗑️</button>
+                        <div class="variant-manager">
+                            ${lineasHTML}
                         </div>
                     </div>
                 `;
             });
         });
 
-        // --- 2. LÓGICA DEL FORMULARIO (Crear o Actualizar) ---
-        function procesarFormulario(e) {
-            e.preventDefault();
-            
-            // Convertimos los textos separados por coma en Listas (Arrays) limpios
-            const tallasArray = document.getElementById('pTallas').value.split(',').map(s => s.trim()).filter(s => s !== "");
-            const coloresArray = document.getElementById('pColores').value.split(',').map(s => s.trim()).filter(s => s !== "");
-            const imagenesArray = document.getElementById('pImagenes').value.split(',').map(s => s.trim()).filter(s => s !== "");
-
-            // Estructura profesional del producto
-            const datosPrenda = {
-                titulo: document.getElementById('pTitulo').value.trim(),
-                precio: parseFloat(document.getElementById('pPrecio').value),
-                categoria: document.getElementById('pCategoria').value,
-                cantidad: parseInt(document.getElementById('pCantidad').value),
-                tallas: tallasArray,
-                colores: coloresArray,
-                imagenes: imagenesArray,
-                descripcion: document.getElementById('pDesc').value.trim(),
-                marca: 'Musefitve',
-                badge: 'Nuevo'
-            };
-
-            if (idProductoEnEdicion) {
-                // 🚨 MODO EDICIÓN: Sobreescribimos el producto existente 🚨
-                db.child(idProductoEnEdicion).set(datosPrenda)
-                    .then(() => {
-                        alert("✅ ¡Cambios guardados correctamente!");
-                        cancelarEdicion(); // Volver al modo normal
-                    })
-                    .catch(error => alert("❌ Error al guardar: " + error));
+        window.restarVariante = function(idProducto, varianteKey, stockActual) {
+            if(stockActual > 0) {
+                db.child(`${idProducto}/variantes/${varianteKey}`).set(stockActual - 1);
             } else {
-                // MODO CREAR: Creamos uno nuevo
-                db.push(datosPrenda)
-                    .then(() => {
-                        alert("🎉 ¡Nueva prenda subida exitosamente!");
-                        document.getElementById('formPrenda').reset();
-                    });
+                alert("Esta variante exacta ya está agotada.");
             }
-        }
+        };
 
-        // --- 3. FUNCIONES DE EDICIÓN ---
-        
-        // Carga los datos de la tarjeta al formulario
         function prepararEdicion(id) {
-            // 1. Buscamos el producto en la base de datos una sola vez
             db.child(id).once('value').then((snapshot) => {
                 const prod = snapshot.val();
                 if(!prod) return;
 
-                // 2. Activamos el modo edición global
                 idProductoEnEdicion = id;
 
-                // 3. Llenamos el formulario (convertimos arrays a texto con comas)
                 document.getElementById('pTitulo').value = prod.titulo;
                 document.getElementById('pPrecio').value = prod.precio;
                 document.getElementById('pCategoria').value = prod.categoria;
-                document.getElementById('pCantidad').value = prod.cantidad;
-                document.getElementById('pTallas').value = prod.tallas.join(', ');
-                document.getElementById('pColores').value = prod.colores.join(', ');
+                document.getElementById('pBadge').value = prod.badge || ''; // Carga la etiqueta para borrarla si se desea
                 document.getElementById('pImagenes').value = prod.imagenes.join(', ');
                 document.getElementById('pDesc').value = prod.descripcion;
 
-                // 4. Cambiamos la interfaz visual
-                document.getElementById('tituloFormulario').innerText = "✏️ Editando: " + prod.titulo;
-                document.getElementById('tituloFormulario').style.color = "var(--blue)";
-                document.getElementById('btnSubmitForm').innerText = "💾 Guardar Cambios Definitivos";
-                document.getElementById('btnSubmitForm').style.background = "var(--blue)";
-                document.getElementById('btnCancelarEdicion').style.display = "block"; // Mostramos botón cancelar
+                let tallasSet = new Set();
+                let coloresSet = new Set();
+                if(prod.variantes) {
+                    Object.keys(prod.variantes).forEach(k => {
+                        const partes = k.split(' - ');
+                        tallasSet.add(partes[0]);
+                        coloresSet.add(partes[1]);
+                    });
+                }
+                document.getElementById('pTallas').value = Array.from(tallasSet).join(', ');
+                document.getElementById('pColores').value = Array.from(coloresSet).join(', ');
 
-                // 5. Subimos la pantalla suavemente al formulario
+                generarCamposStock(prod.variantes);
+
+                document.getElementById('tituloFormulario').innerText = "✏️ Editando: " + prod.titulo;
+                document.getElementById('btnSubmitForm').innerText = "💾 Guardar Cambios SKU";
+                document.getElementById('btnSubmitForm').style.background = "var(--blue)";
+                document.getElementById('btnCancelarEdicion').style.display = "block";
+
                 document.getElementById('zonaFormulario').scrollIntoView({ behavior: 'smooth' });
-                
-                // Opcional: Resaltamos la tarjeta que estamos editando
-                document.querySelectorAll('.item-card').forEach(c => c.style.borderColor = "#eee");
-                document.getElementById('card-'+id).style.borderColor = "var(--blue)";
             });
         }
 
-        // Vuelve el formulario a su estado original
         function cancelarEdicion() {
-            idProductoEnEdicion = null; // Desactivamos modo edición
-            document.getElementById('formPrenda').reset(); // Limpiamos campos
-            
-            // Restauramos interfaz visual
+            idProductoEnEdicion = null;
+            document.getElementById('formPrenda').reset();
+            document.getElementById('contenedorCamposSKU').innerHTML = '';
             document.getElementById('tituloFormulario').innerText = "Subir Nueva Prenda";
-            document.getElementById('tituloFormulario').style.color = "#555";
-            document.getElementById('btnSubmitForm').innerText = "➕ Subir Producto a la Tienda";
+            document.getElementById('btnSubmitForm').innerText = "➕ Guardar Prenda en Internet";
             document.getElementById('btnSubmitForm').style.background = "var(--primary)";
-            document.getElementById('btnCancelarEdicion').style.display = "none"; // Ocultamos cancelar
-            
-            // Quitamos resaltado de tarjetas
-            document.querySelectorAll('.item-card').forEach(c => c.style.borderColor = "#eee");
-        }
-
-        // --- 4. ACCIONES RÁPIDAS (Restar/Borrar) ---
-        
-        function restarStock(id, stockActual) {
-            if (stockActual > 0) {
-                db.child(id).update({ cantidad: stockActual - 1 });
-            } else {
-                alert("Este producto ya está agotado.");
-            }
+            document.getElementById('btnCancelarEdicion').style.display = "none";
         }
 
         function borrarProducto(id) {
-            if(idProductoEnEdicion === id) {
-                alert("❌ No puedes borrar este producto mientras lo estás editando. Cancela la edición primero.");
-                return;
-            }
-            if(confirm("⚠️ ¿Estás TOTALMENTE segura? Esta prenda desaparecerá de la tienda de inmediato.")) {
+            if(confirm("¿Seguro que quieres borrar este producto SKU?")) {
                 db.child(id).remove();
             }
         }
