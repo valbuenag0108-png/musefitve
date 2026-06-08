@@ -248,7 +248,7 @@
         };
 
         // Escucha en tiempo real tu base de datos
-       function cargarProductosDesdeFirebase() {
+      function cargarProductosDesdeFirebase() {
             database.ref('productos').on('value', (snapshot) => {
                 const data = snapshot.val();
                 const grid = document.getElementById('gridPrendas');
@@ -265,23 +265,22 @@
                     prod.id = key;
                     productosDataGlobal.push(prod);
 
-                    let stockTotal = 0;
-                    if(prod.variantes) {
-                        Object.values(prod.variantes).forEach(cant => stockTotal += parseInt(cant || 0));
-                    }
-                    const esAgotado = stockTotal <= 0;
+                    // 🚨 CONTROL TRADICIONAL: Leemos la cantidad directa de la prenda
+                    const stockActual = parseInt(prod.cantidad || 0);
+                    const esAgotado = stockActual <= 0;
 
-                    // 🚨 CAMBIO AQUÍ: Solo dibuja la etiqueta si prod.badge existe y NO está vacío
+                    // Evaluamos si escribiste algo en la casilla de etiqueta (badge)
                     const etiquetaHTML = (prod.badge && prod.badge.trim() !== "") ? `<span class="badge">${prod.badge}</span>` : '';
 
                     grid.innerHTML += `
-                        <div class="product-card" data-category="${prod.categoria}" style="${esAgotado ? 'opacity: 0.5;' : ''}" onclick="abrirModalDinamico('${key}')">
+                        <div class="product-card" data-category="${prod.categoria}" style="${esAgotado ? 'opacity: 0.6;' : ''}" onclick="abrirModalDinamico('${key}')">
                             ${etiquetaHTML}
-                            ${esAgotado ? `<span class="badge" style="background:#555; left:auto; right:15px;">Agotado</span>` : ''}
+                            ${esAgotado ? `<span class="badge" style="background:#777; left:auto; right:15px;">Agotado</span>` : ''}
                             <div class="image-wrapper">
                                 <img src="${prod.imagenes[0]}" class="product-image">
                             </div>
                             <div class="product-info">
+                                <span class="brand-tag">${prod.marca || ''}</span>
                                 <p class="product-title" style="${esAgotado ? 'text-decoration: line-through; color:#888;' : ''}">${prod.titulo}</p>
                                 <p class="product-price">$${parseFloat(prod.precio).toFixed(2)}</p>
                             </div>
@@ -290,6 +289,27 @@
                 });
                 inicializarFiltros();
             });
+        }
+
+        // Esta mini-función abre el modal leyendo tus tallas y colores directos
+        function abrirModalDinamico(idProducto) {
+            const prod = productosDataGlobal.find(p => p.id === idProducto);
+            if (!prod) return;
+
+            // Llama al modal premium original con tus listas normales de toda la vida
+            openModal(prod.titulo, prod.marca || 'Musefitve', prod.precio, prod.descripcion, prod.tallas, prod.colores, prod.imagenes);
+            
+            // Si el stock general llegó a 0, bloquea el botón
+            const btn = document.getElementById('btnAgregarAlCarrito');
+            if (parseInt(prod.cantidad || 0) <= 0) {
+                btn.innerText = "Agotado";
+                btn.style.background = "#777";
+                btn.disabled = true;
+            } else {
+                btn.innerText = "Añadir al Carrito";
+                btn.style.background = "#111";
+                btn.disabled = false;
+            }
         }
 
                 // Recorremos los productos guardados en internet
