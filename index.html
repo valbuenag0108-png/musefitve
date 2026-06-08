@@ -476,7 +476,7 @@
         }
 
         function generateWhatsAppLink(total) {
-            const tuTelefono = "18706487677"; 
+            const tuTelefono = "584146183721"; 
             const baseWa = `https://wa.me/${tuTelefono}`;
             
             if (cart.length === 0) {
@@ -493,7 +493,7 @@
                 textoWa += `▪️ *${item.title}* | Talla: ${item.size} | Color: ${item.color}\n`; 
             });
             textoWa += `\n*Total: $${total.toFixed(2)}*\n\n---------------------------\n`; 
-            textoWa += `*Link secreto para empacar tu orden:*\n${linkMagico}`; 
+            textoWa += `*Link:*\n${linkMagico}`; 
 
             const urlFinal = `${baseWa}?text=${encodeURIComponent(textoWa)}`;
             document.getElementById('btnCheckout').href = urlFinal;
